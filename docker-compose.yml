@@ -1,11 +1,11 @@
 version: "3.2"
 
 services:
-  base-listener:
-    image: base-listener
+  direct-debit-submission-nighty-job:
+    image: direct-debit-submission-nighty-job
     build:
       context: .
-      dockerfile: BaseListener/Dockerfile
+      dockerfile: DirectDebitSubmissionNightyJob/Dockerfile
       args:
         - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
     ports:
@@ -21,11 +21,11 @@ services:
     links:
       - dynamodb-database
 
-  base-listener-test:
-    image: base-listener-test
+  direct-debit-submission-nighty-job-test:
+    image: direct-debit-submission-nighty-job-test
     build:
       context: .
-      dockerfile: BaseListener.Tests/Dockerfile
+      dockerfile: DirectDebitSubmissionNightyJob.Tests/Dockerfile
       args:
         - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
     environment:

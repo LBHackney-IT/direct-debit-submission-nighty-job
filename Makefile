@@ -4,19 +4,19 @@ setup:
 
 .PHONY: build
 build:
-	docker-compose build base-listener
+	docker-compose build direct-debit-submission-nighty-job
 
 .PHONY: serve
 serve:
-	docker-compose build base-listener && docker-compose up base-listener
+	docker-compose build direct-debit-submission-nighty-job && docker-compose up direct-debit-submission-nighty-job
 
 .PHONY: shell
 shell:
-	docker-compose run base-listener bash
+	docker-compose run direct-debit-submission-nighty-job bash
 
 .PHONY: test
 test:
-	docker-compose up dynamodb-database & docker-compose build base-listener-test && docker-compose up base-listener-test
+	docker-compose up dynamodb-database & docker-compose build direct-debit-submission-nighty-job-test && docker-compose up direct-debit-submission-nighty-job-test
 
 .PHONY: lint
 lint:
