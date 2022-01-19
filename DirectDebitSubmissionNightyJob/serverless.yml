@@ -22,6 +22,13 @@ functions:
     environment:
       ### Re-use the same parameter as used by web api applications
       ENVIRONMENT:  ${ssm:/housing-tl/${self:provider.stage}/aspnetcore-environment}
+      CONNECTION_STRING: Host=${ssm:/housing-finance/${self:provider.stage}/postgres-hostname};Port=${ssm:/housing-finance/${self:provider.stage}/postgres-port};Database=${ssm:/housing-finance/${self:provider.stage}/postgres-database};Username=${ssm:/housing-finance/${self:provider.stage}/postgres-username};Password=${ssm:/housing-finance/${self:provider.stage}/postgres-password}
+      PTXDDSubmissionBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/ptx/submission-base-url}
+      PTXVerifyBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/ptx/verify-base-url}
+      PTXVerifyApiKey:  ${ssm:/housing-finance/${self:provider.stage}/ptx/verify-api-key}
+      RegisterPTXEmail:  ${ssm:/housing-finance/${self:provider.stage}/ptx/register-email}
+      PTXPassword:  ${ssm:/housing-finance/${self:provider.stage}/ptx/register-password}
+      PTXProfile:  ${ssm:/housing-finance/${self:provider.stage}/ptx/housing-rent-profile-id}
     events:
       ### Specify the parameter containing the queue arn used to trigget the lambda function here
       ### This will have been defined in the terraform configuration
