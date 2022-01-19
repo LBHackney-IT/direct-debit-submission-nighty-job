@@ -59,50 +59,21 @@ namespace DirectDebitSubmissionNightyJob
         /// <returns></returns>
         public async Task FunctionHandler(SQSEvent evnt, ILambdaContext context)
         {
-            // Do this in parallel???
-            foreach (var message in evnt.Records)
-            {
-                await ProcessMessageAsync(message, context).ConfigureAwait(false);
-            }
+            await ProcessMessageAsync(context).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Method called to process every distinct message received.
         /// </summary>
-        /// <param name="message"></param>
         /// <param name="context"></param>
         /// <returns></returns>
         [LogCall(LogLevel.Information)]
-        private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context)
+        private async Task ProcessMessageAsync(ILambdaContext context)
         {
-            context.Logger.LogLine($"Processing message {message.MessageId}");
-
-            var entityEvent = JsonSerializer.Deserialize<EntityEventSns>(message.Body, _jsonOptions);
-
-            using (Logger.BeginScope("CorrelationId: {CorrelationId}", entityEvent.CorrelationId))
+            using (Logger.BeginScope("Start processing event for " + DateTime.UtcNow))
             {
-                try
-                {
-                    IMessageProcessing processor = null;
-                    switch (entityEvent.EventType)
-                    {
-                        case EventTypes.DoSomethingEvent:
-                            {
-                                processor = ServiceProvider.GetService<IDoSomethingUseCase>();
-                                break;
-                            }
-                        // TODO - Implement other message types here...
-                        default:
-                            throw new ArgumentException($"Unknown event type: {entityEvent.EventType} on message id: {message.MessageId}");
-                    }
-
-                    await processor.ProcessMessageAsync(entityEvent).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, $"Exception processing message id: {message.MessageId}; type: {entityEvent.EventType}; entity id: {entityEvent.EntityId}");
-                    throw; // AWS will handle retry/moving to the dead letter queue
-                }
+                IMessageProcessing processor = ServiceProvider.GetService<IGenerateWeeklySubmissionFileUseCase>();
+                await processor.ProcessMessageAsync(Logger).ConfigureAwait(false);
             }
         }
     }

@@ -39,7 +39,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
             {
 
                 var data = new List<PTXSubmissionFileData>();
-                var generatedFile = Generate(data);
+                var generatedFile = GenerateHousingRentFile(data);
                 var filename = $"DDWeekly{DateTime.UtcNow:yyyyddMHHmmss}.dat";
                 byte[] result = Encoding.ASCII.GetBytes(generatedFile); ;
 
@@ -56,13 +56,13 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                         PTXSubmissionResponse = ptxResponse?.Item2
                     };
 
-                    return await _gateway.UploadFileAsync(fileData).ConfigureAwait(false);
+                   await _gateway.UploadFileAsync(fileData).ConfigureAwait(false);
                 }
 
             }
         }
 
-        private static string Generate(List<PTXSubmissionFileData> pTXSubmissionFileDatas)
+        private static string GenerateHousingRentFile(List<PTXSubmissionFileData> pTXSubmissionFileDatas)
         {
             var hackneySortCode = "300002";
             var hackneyAccountNumber = "00641877";
@@ -71,7 +71,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
             foreach (var item in pTXSubmissionFileDatas)
             {
                 var date = DateTime.UtcNow.ToString("yyMdd");
-                sb.AppendLine($"{item.Sort.PadRight(6)}{item.Number.PadRight(8)}0{item.Type}{hackneySortCode}{hackneyAccountNumber}0000{item.Amount}{hackneyAccountName.PadRight(18)}{item.Ref.PadRight(10)}HSGSUN {item.Name,-18}{date}");
+                sb.AppendLine($"{item.Sort,-6}{item.Number,-8}0{item.Type}{hackneySortCode,-6}{hackneyAccountNumber,-8}0000{item.Amount}{hackneyAccountName,-18}{item.Ref.Substring(0, 10)}hsg rent{item.Name,-18} {date}");
             }
             return sb.ToString();
         }
