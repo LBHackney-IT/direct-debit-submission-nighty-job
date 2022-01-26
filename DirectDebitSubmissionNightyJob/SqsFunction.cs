@@ -1,18 +1,15 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SQSEvents;
-using DirectDebitSubmissionNightyJob.Boundary;
-using DirectDebitSubmissionNightyJob.Gateway;
-using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
-using DirectDebitSubmissionNightyJob.UseCase;
 using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
-using Hackney.Core.DynamoDb;
 using Hackney.Core.Logging;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.Json;
 using System.Threading.Tasks;
+using DirectDebitSubmissionNightyJob.Infrastructure;
+using Hackney.Core.DynamoDb;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -42,13 +39,13 @@ namespace DirectDebitSubmissionNightyJob
             services.ConfigureDynamoDB();
 
             services.AddHttpClient();
-            services.AddScoped<IDoSomethingUseCase, DoSomethingUseCase>();
+            var connectionString = Environment.GetEnvironmentVariable("PgSqlConnection");
 
-            services.AddScoped<IDbEntityGateway, DynamoDbEntityGateway>();
+            services.AddDbContext<DirectDebitContext>(opt =>
+                opt.UseNpgsql(connectionString));
 
             base.ConfigureServices(services);
         }
-
 
         /// <summary>
         /// This method is called for every Lambda invocation. This method takes in an SQS event object and can be used 

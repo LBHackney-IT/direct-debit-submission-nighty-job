@@ -1,6 +1,6 @@
 using System;
 
-namespace DirectDebitApi.V1.Boundary.Response
+namespace DirectDebitSubmissionNightyJob.Boundary.Response
 {
     public abstract class PagedResultBase
     {

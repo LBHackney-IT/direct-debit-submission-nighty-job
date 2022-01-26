@@ -1,13 +1,13 @@
 using AutoMapper;
-using DirectDebitApi.V1.Domain;
-using DirectDebitApi.V1.Infrastructure;
+using DirectDebitSubmissionNightyJob.Domain;
+using DirectDebitSubmissionNightyJob.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DirectDebitApi.V1.Gateways
+namespace DirectDebitSubmissionNightyJob.Gateways
 {
     public class DirectDebitMaintenanceGateway : IDirectDebitMaintenanceGateway
     {

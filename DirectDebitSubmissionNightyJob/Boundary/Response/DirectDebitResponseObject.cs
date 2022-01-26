@@ -1,10 +1,9 @@
-using DirectDebitApi.V1.Domain;
-using DirectDebitApi.V1.Domain.Enums;
 using DirectDebitSubmissionNightyJob.Domain;
+using DirectDebitSubmissionNightyJob.Domain.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace DirectDebitApi.V1.Boundary.Response
+namespace DirectDebitSubmissionNightyJob.Boundary.Response
 {
     public class DirectDebitResponseObject
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace DirectDebitApi.V1.Boundary
+namespace DirectDebitSubmissionNightyJob.Boundary
 {
 
     public class Person

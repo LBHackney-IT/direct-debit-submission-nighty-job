@@ -1,8 +1,6 @@
-using DirectDebitApi.V1.Gateways.Interfaces;
-using DirectDebitApi.V1.Helpers;
+using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Boundary.Response;
-using LazyCache;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -13,8 +11,10 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DirectDebitSubmissionNightyJob.Helpers;
+using LazyCache;
 
-namespace DirectDebitApi.V1.Gateways
+namespace DirectDebitSubmissionNightyJob.Gateways
 {
     public class PTXPaymentApiService : IPTXPaymentApiService
     {
@@ -55,9 +55,6 @@ namespace DirectDebitApi.V1.Gateways
             {
                 throw new ArgumentException($"Configuration does not contain a ptx setting value for the parameter {ProfileId}.");
             }
-            _email = "eddycase1@gmail.com";
-            _password = "wL7efk73cEGjZDv";
-            _profileId = "44292";
         }
 
         public async Task<Tuple<bool, ResultSummaryResponse>> SubmitDirectDebitFile(byte[] bytes, string fileName)
@@ -173,20 +170,22 @@ namespace DirectDebitApi.V1.Gateways
 
         public async Task<ResultSummaryResponse> GetResultSummaryByFileIdAsync(string id, PTXAuthData authData)
         {
-
             _httpClient.DefaultRequestHeaders.Remove("Cookie");
             _httpClient.DefaultRequestHeaders.Remove("X-CSRF");
             _httpClient.DefaultRequestHeaders.Remove("com.bottomline.auth.token");
             _httpClient.DefaultRequestHeaders.Add("Cookie", authData.JsessionId);
             _httpClient.DefaultRequestHeaders.Add("X-CSRF", authData.XCsrf);
             _httpClient.DefaultRequestHeaders.Add("com.bottomline.auth.token", authData.Authtoken);
+
             var path = new Uri($"{_paymentsBaseUrl}file/{id}", UriKind.Absolute);
             var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
+
             if (response.IsSuccessStatusCode)
             {
                 var contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
                 return contentResult;
             }
+
             return null;
         }
     }

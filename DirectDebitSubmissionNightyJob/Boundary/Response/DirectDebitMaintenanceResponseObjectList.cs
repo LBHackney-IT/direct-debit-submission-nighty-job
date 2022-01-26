@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DirectDebitApi.V1.Boundary.Response
+namespace DirectDebitSubmissionNightyJob.Boundary.Response
 {
     public class DirectDebitMaintenanceResponseObjectList
     {

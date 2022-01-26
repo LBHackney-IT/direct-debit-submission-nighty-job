@@ -1,7 +1,7 @@
-using DirectDebitApi.V1.Domain.Enums;
+using DirectDebitSubmissionNightyJob.Domain.Enums;
 using System;
 
-namespace DirectDebitApi.V1.Boundary.Request
+namespace DirectDebitSubmissionNightyJob.Boundary.Request
 {
     public class DirectDebitMaintenanceRequest
     {

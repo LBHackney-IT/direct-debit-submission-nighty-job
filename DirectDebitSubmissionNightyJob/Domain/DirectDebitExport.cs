@@ -1,4 +1,4 @@
-namespace DirectDebitApi.V1.Domain
+namespace DirectDebitSubmissionNightyJob.Domain
 {
     public class DirectDebitExport
     {

@@ -1,7 +1,7 @@
-using DirectDebitApi.V1.Infrastructure.Configuration;
+using DirectDebitSubmissionNightyJob.Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
-namespace DirectDebitApi.V1.Infrastructure
+namespace DirectDebitSubmissionNightyJob.Infrastructure
 {
 
     public class DirectDebitContext : DbContext

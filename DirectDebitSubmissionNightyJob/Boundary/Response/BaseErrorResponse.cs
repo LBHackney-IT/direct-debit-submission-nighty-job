@@ -1,4 +1,4 @@
-namespace DirectDebitApi.V1.Boundary.Response
+namespace DirectDebitSubmissionNightyJob.Boundary.Response
 {
     public class BaseErrorResponse
     {

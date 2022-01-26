@@ -1,4 +1,4 @@
-using DirectDebitApi.V1.Boundary.Response;
+using DirectDebitSubmissionNightyJob.Boundary.Response;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 

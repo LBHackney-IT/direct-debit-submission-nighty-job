@@ -1,6 +1,5 @@
-using DirectDebitApi.V1.Boundary.Request;
-using DirectDebitApi.V1.Boundary.Response;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
+using DirectDebitSubmissionNightyJob.Boundary.Response;
 using DirectDebitSubmissionNightyJob.Domain;
 using System;
 using System.Collections.Generic;

@@ -1,10 +1,6 @@
 using AutoMapper;
-using DirectDebitApi.V1.Boundary.Request;
-using DirectDebitApi.V1.Boundary.Response;
-using DirectDebitApi.V1.Domain;
-using DirectDebitApi.V1.Extension;
-using DirectDebitApi.V1.Infrastructure;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
+using DirectDebitSubmissionNightyJob.Boundary.Response;
 using DirectDebitSubmissionNightyJob.Gateways;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Extensions;
@@ -13,8 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DirectDebitSubmissionNightyJob.Domain;
+using DirectDebitSubmissionNightyJob.Extension;
+using DirectDebitSubmissionNightyJob.Infrastructure;
 
-namespace DirectDebitApi.V1.Gateways
+namespace DirectDebitSubmissionNightyJob.Gateways
 {
     public class DirectDebitGateway : IDirectDebitGateway
     {
@@ -34,11 +33,8 @@ namespace DirectDebitApi.V1.Gateways
             await _directDebitContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
-
-
         public async Task<PagedResult<DirectDebit>> GetAllDirectDebitsAsync(DirectDebitQuery query)
         {
-
             if (query == null)
             {
                 throw new ArgumentNullException(nameof(query));
@@ -57,7 +53,6 @@ namespace DirectDebitApi.V1.Gateways
                                 || x.PaymentReference.Contains(query.SearchKeyword)
                                 || EF.Functions.JsonContains(x.AccountHolders, search));
             }
-
 
             if (query.CollectionDate.HasValue || isNumber)
                 list = query.CollectionDate.HasValue ? list.Where(x => x.PreferredDate! == query.CollectionDate.Value) : list.Where(x => x.PreferredDate! == n);

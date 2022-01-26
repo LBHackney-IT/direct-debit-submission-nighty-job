@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DirectDebitApi.V1.Boundary.Request
+namespace DirectDebitSubmissionNightyJob.Boundary.Request
 {
     public class DirectDebitExportRequest
     {

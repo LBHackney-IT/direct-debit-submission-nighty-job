@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace DirectDebitApi.V1.Domain.Enums
+namespace DirectDebitSubmissionNightyJob.Domain.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum StatusEnum

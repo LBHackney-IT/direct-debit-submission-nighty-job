@@ -1,9 +1,9 @@
-using DirectDebitApi.V1.Boundary.Request;
+using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DirectDebitApi.V1.Gateways
+namespace DirectDebitSubmissionNightyJob.Gateways
 {
     public interface IDirectDebitSubmissionGateway
     {

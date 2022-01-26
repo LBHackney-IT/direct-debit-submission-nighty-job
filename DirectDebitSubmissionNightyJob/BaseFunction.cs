@@ -4,13 +4,13 @@ using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using DirectDebitSubmissionNightyJob.Infrastructure;
 using Hackney.Core.Logging;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DirectDebitSubmissionNightyJob
 {
@@ -43,10 +43,6 @@ namespace DirectDebitSubmissionNightyJob
             services.AddLogCallAspect();
 
             ConfigureServices(services);
-
-            // TODO - Remove if not using DynamoDb
-            if (Configuration.GetValue<bool>("DynamoDb_LocalMode"))
-                AWSXRayRecorder.Instance.ContextMissingStrategy = ContextMissingStrategy.LOG_ERROR;
 
             ServiceProvider = services.BuildServiceProvider();
             ServiceProvider.UseLogCall();
