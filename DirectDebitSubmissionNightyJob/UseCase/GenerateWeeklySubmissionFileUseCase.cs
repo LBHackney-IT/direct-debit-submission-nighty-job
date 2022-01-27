@@ -20,14 +20,16 @@ namespace DirectDebitSubmissionNightyJob.UseCase
         private readonly IPTXPaymentApiService _iPTXFileUploadService;
         private readonly IDirectDebitGateway _directDebitGateway;
         private readonly IMapper _mapper;
+        private readonly IUpdateRentAccountUseCase _updateRentAccountUseCase;
 
         public GenerateWeeklySubmissionFileUseCase(IDirectDebitSubmissionGateway directDebitSubmissionGateway, IPTXPaymentApiService iPTXFileUploadService,
-                                               IDirectDebitGateway directDebitGateway, IMapper mapper)
+                                               IDirectDebitGateway directDebitGateway, IMapper mapper, IUpdateRentAccountUseCase updateRentAccountUseCase)
         {
             _directDebitSubmissionGateway = directDebitSubmissionGateway;
             _iPTXFileUploadService = iPTXFileUploadService;
             _directDebitGateway = directDebitGateway;
             _mapper = mapper;
+            _updateRentAccountUseCase = updateRentAccountUseCase;
         }
 
         public async Task ProcessMessageAsync(ILogger logger)
@@ -56,6 +58,11 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                     };
 
                    await _directDebitSubmissionGateway.UploadFileAsync(fileData).ConfigureAwait(false);
+
+                   foreach (var directDebit in directDebits)
+                   {
+                       await _updateRentAccountUseCase.ExecuteAsync(directDebit);
+                   }
                 }
             }
         }

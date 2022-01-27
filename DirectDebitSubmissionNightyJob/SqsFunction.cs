@@ -6,7 +6,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using DirectDebitSubmissionNightyJob.Extension;
 using DirectDebitSubmissionNightyJob.Infrastructure;
+using DirectDebitSubmissionNightyJob.Services.Concrete;
+using DirectDebitSubmissionNightyJob.Services.Interfaces;
 using Hackney.Core.DynamoDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,10 +42,13 @@ namespace DirectDebitSubmissionNightyJob
             services.ConfigureDynamoDB();
 
             services.AddHttpClient();
-            var connectionString = Environment.GetEnvironmentVariable("PgSqlConnection");
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
             services.AddDbContext<DirectDebitContext>(opt =>
                 opt.UseNpgsql(connectionString));
+
+            services.AddTransient<IRestClient, JsonRestClient>();
+            services.ConfigureAccountApiClient(Configuration);
 
             base.ConfigureServices(services);
         }
