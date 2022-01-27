@@ -6,7 +6,7 @@ namespace DirectDebitSubmissionNightyJob.AppConstants
 {
     public static class HackneyFileInfoConstants
     {
-        public const string HackneySortCode = "300002";
+        public static string HackneySortCode = Environment.GetEnvironmentVariable("HackneySortCode");
         public const string HackneyAccountNumber = "00641877";
         public const string HackneyAccountName = "LB Hackney";
     }

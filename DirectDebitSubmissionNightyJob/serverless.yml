@@ -29,6 +29,7 @@ functions:
       RegisterPTXEmail:  ${ssm:/housing-finance/${self:provider.stage}/ptx/register-email}
       PTXPassword:  ${ssm:/housing-finance/${self:provider.stage}/ptx/register-password}
       PTXProfile:  ${ssm:/housing-finance/${self:provider.stage}/ptx/housing-rent-profile-id}
+      HackneySortCode:  ${ssm:/housing-finance/${self:provider.stage}/ptx/hackney-sort-code}
     events:
       ### Specify the parameter containing the queue arn used to trigget the lambda function here
       ### This will have been defined in the terraform configuration
