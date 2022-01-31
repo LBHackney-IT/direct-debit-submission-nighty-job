@@ -12,7 +12,10 @@
         "PTXVerifyApiKey": "<[PTX API KEY]>",
         "RegisterPTXEmail": "<[PtxEmail]>",
         "PTXPassword": "<[PtxPassword]>",
-        "PTXProfile": "<[PtxProfile Id]>"
+        "PTXProfile": "<[PtxProfile Id]>",
+        "HackneySortCode": "<[Hackney Sort Code]>",
+        "HackneyAccountNumber": "<[Hackney Account Number]>",
+        "HackneyAccountName": "<[Hackney Account Name]>"
       }
     }
   }

@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using DirectDebitSubmissionNightyJob.AppConstants;
 
 namespace DirectDebitSubmissionNightyJob.UseCase
 {
@@ -73,7 +72,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
             foreach (var item in pTXSubmissionFileDatas)
             {
                 var date = DateTime.UtcNow.ToString("yyMdd");
-                sb.AppendLine($"{item.Sort,-6}{item.Number,-8}0{item.Type}{HackneyFileInfoConstants.HackneySortCode,-6}{HackneyFileInfoConstants.HackneyAccountNumber,-8}0000{item.Amount}{HackneyFileInfoConstants.HackneyAccountName,-18}{item.Ref.Substring(0, 10)}hsg rent{item.Name,-18} {date}");
+                sb.AppendLine($"{item.Sort,-6}{item.Number,-8}0{item.Type}{Environment.GetEnvironmentVariable("HackneySortCode"),-6}{Environment.GetEnvironmentVariable("HackneyAccountNumber"),-8}0000{item.Amount}{Environment.GetEnvironmentVariable("HackneyAccountName"),-18}{item.Ref.Substring(0, 10)}hsg rent{item.Name,-18} {date}");
             }
             return sb.ToString();
         }
