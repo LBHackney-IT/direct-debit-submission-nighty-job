@@ -19,11 +19,6 @@ namespace DirectDebitSubmissionNightyJob.Services.Concrete
             restClient.Init(httpClient);
         }
 
-        public async Task<AccountResponse> GetAccountInformationByPrn(string paymentReference)
-        {
-            return await _restClient.GetAsync<AccountResponse>($"accounts/prn/{paymentReference}", "Failed to retrieve account");
-        }
-
         public async Task UpdateRentAccountBalance(AccountUpdateRequest request) =>
             await _restClient
                 .PatchAsync<object>($"accounts/{request.Id}", request, "Failed to update rent account")

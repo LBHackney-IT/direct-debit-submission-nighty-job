@@ -13,17 +13,19 @@ namespace DirectDebitSubmissionNightyJob.UseCase
     public class UpdateRentAccountUseCase : IUpdateRentAccountUseCase
     {
         private readonly IAccountApiService _accountApiService;
+        private readonly IHousingSearchApiService _housingSearchApiService;
         private readonly IMapper _mapper;
 
-        public UpdateRentAccountUseCase(IAccountApiService accountApiService, IMapper mapper)
+        public UpdateRentAccountUseCase(IAccountApiService accountApiService, IMapper mapper, IHousingSearchApiService housingSearchApiService)
         {
             _accountApiService = accountApiService;
             _mapper = mapper;
+            _housingSearchApiService = housingSearchApiService;
         }
 
         public async Task ExecuteAsync(DirectDebit directDebit)
         {
-            var accountResponse = await _accountApiService.GetAccountInformationByPrn(directDebit.PaymentReference);
+            var accountResponse = await _housingSearchApiService.GetRentAccountByPrn(directDebit.PaymentReference);
             accountResponse.AccountBalance += directDebit.AdditionalAmount;
 
             var updateRequest = _mapper.Map<AccountUpdateRequest>(accountResponse);

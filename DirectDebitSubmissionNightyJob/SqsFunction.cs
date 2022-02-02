@@ -49,6 +49,7 @@ namespace DirectDebitSubmissionNightyJob
 
             services.AddTransient<IRestClient, JsonRestClient>();
             services.ConfigureAccountApiClient(Configuration);
+            services.ConfigureHousingSearchApiClient(Configuration);
 
             base.ConfigureServices(services);
         }

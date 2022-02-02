@@ -14,11 +14,24 @@ namespace DirectDebitSubmissionNightyJob.Extension
     {
         public static void ConfigureAccountApiClient(this IServiceCollection services, IConfiguration configuration)
         {
+            var url = Environment.GetEnvironmentVariable("AccountAPIBaseUrl") ?? configuration["AccountAPI:BaseUrl"];
             services
                 .AddHttpClient<IAccountApiService, AccountApiService>(client =>
                 {
-                    client.BaseAddress = new Uri(configuration["AccountAPI:BaseUrl"]);
-                    client.DefaultRequestHeaders.Add("X-Api-Key", configuration["AccountAPI:ApiKey"]);
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("AccountAPIApiKey"));
+                })
+                .ConfigureMessageHandlers();
+        }
+
+        public static void ConfigureHousingSearchApiClient(this IServiceCollection services, IConfiguration configuration)
+        {
+            var url = Environment.GetEnvironmentVariable("HousingSearchAPIBaseUrl") ?? configuration["HousingSearchAPI:BaseUrl"];
+            services
+                .AddHttpClient<IHousingSearchApiService, HousingSearchApiService>(client =>
+                {
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("HousingSearchAPIApiKey"));
                 })
                 .ConfigureMessageHandlers();
         }

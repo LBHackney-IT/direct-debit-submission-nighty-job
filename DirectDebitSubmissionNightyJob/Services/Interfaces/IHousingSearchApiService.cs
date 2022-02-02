@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using DirectDebitSubmissionNightyJob.Boundary.Request.Account;
 using DirectDebitSubmissionNightyJob.Boundary.Response.Account;
 
 namespace DirectDebitSubmissionNightyJob.Services.Interfaces
 {
-    public interface IAccountApiService
+    public interface IHousingSearchApiService
     {
-        Task UpdateRentAccountBalance(AccountUpdateRequest request);
+        Task<AccountResponse> GetRentAccountByPrn(string paymentReference);
     }
 }

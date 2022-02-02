@@ -32,8 +32,10 @@ functions:
       HackneySortCode:  ${ssm:/housing-finance/${self:provider.stage}/ptx/hackney-sort-code}
       HackneyAccountNumber:  ${ssm:/housing-finance/${self:provider.stage}/ptx/hackney-account-number}
       HackneyAccountName:  ${ssm:/housing-finance/${self:provider.stage}/ptx/hackney-account-name}
-      AccountAPI__BaseUrl: ${ssm:/housing-finance/${self:provider.stage}/account-base-url}
-      AccountAPI__ApiKey: ${ssm:/housing-finance/${self:provider.stage}/account-api-key}
+      AccountAPIBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/account-api-url}
+      AccountAPIApiKey: ${ssm:/housing-finance/${self:provider.stage}/account-api-token}
+      HousingSearchAPIBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/housing-search-api-url}
+      HousingSearchAPIApiKey: ${ssm:/housing-finance/${self:provider.stage}/housing-search-api-token}
     events:
       ### Specify the parameter containing the queue arn used to trigget the lambda function here
       ### This will have been defined in the terraform configuration
