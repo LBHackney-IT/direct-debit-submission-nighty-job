@@ -15,7 +15,11 @@
         "PTXProfile": "<[PtxProfile Id]>",
         "HackneySortCode": "<[Hackney Sort Code]>",
         "HackneyAccountNumber": "<[Hackney Account Number]>",
-        "HackneyAccountName": "<[Hackney Account Name]>"
+        "HackneyAccountName": "<[Hackney Account Name]>",
+        "AccountAPIBaseUrl": "<[ACCOUNT API BASE URL]>",
+        "AccountAPIApiKey": "<[ACCOUNT API KEY]>",
+        "HousingSearchAPIBaseUrl": "<[HOUSING SEARCH API BASE URL]>",
+        "HousingSearchAPIApiKey": "<[HOUSING SEARCH API KEY]>"
       }
     }
   }
