@@ -50,6 +50,7 @@
   </ItemGroup>
     
   <ItemGroup>
+    <Folder Include="AppConstants\" />
     <Folder Include="Domain\Account\" />
   </ItemGroup>
 </Project>

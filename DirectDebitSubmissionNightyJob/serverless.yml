@@ -30,6 +30,12 @@ functions:
       PTXPassword:  ${ssm:/housing-finance/${self:provider.stage}/ptx/register-password}
       PTXProfile:  ${ssm:/housing-finance/${self:provider.stage}/ptx/housing-rent-profile-id}
       HackneySortCode:  ${ssm:/housing-finance/${self:provider.stage}/ptx/hackney-sort-code}
+      HackneyAccountNumber:  ${ssm:/housing-finance/${self:provider.stage}/ptx/hackney-account-number}
+      HackneyAccountName:  ${ssm:/housing-finance/${self:provider.stage}/ptx/hackney-account-name}
+      AccountAPIBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/account-api-url}
+      AccountAPIApiKey: ${ssm:/housing-finance/${self:provider.stage}/account-api-token}
+      HousingSearchAPIBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/housing-search-api-url}
+      HousingSearchAPIApiKey: ${ssm:/housing-finance/${self:provider.stage}/housing-search-api-token}
     events:
       ### Specify the parameter containing the queue arn used to trigget the lambda function here
       ### This will have been defined in the terraform configuration

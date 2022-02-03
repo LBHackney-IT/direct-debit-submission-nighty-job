@@ -1,80 +1,69 @@
-using Amazon.DynamoDBv2;
-using Hackney.Core.DynamoDb;
-using Hackney.Core.Testing.DynamoDb;
-using Hackney.Core.Testing.Shared;
+using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
+using System.Data.Common;
+using DirectDebitSubmissionNightyJob.Infrastructure;
+using DirectDebitSubmissionNightyJob.Services.Interfaces;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Moq;
 
 namespace DirectDebitSubmissionNightyJob.Tests
 {
-    // TODO - Remove DynamoDb parts if not required
-
-    public class MockApplicationFactory
+    public class MockWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
-        private readonly List<TableDef> _tables = new List<TableDef>
+        private readonly DbConnection _connection;
+        public MockWebApplicationFactory(DbConnection connection)
         {
-            // Define all tables required by the application here.
-            // The definition should be exactly the same as that used in real deployed environments
-            new TableDef { Name = "SomeTable", KeyName = "id", KeyType = ScalarAttributeType.S }
-        };
-        public IDynamoDbFixture DynamoDbFixture { get; private set; }
-
-        private readonly IHost _host;
-
-        public MockApplicationFactory()
-        {
-            EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
-            EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
-
-            _host = CreateHostBuilder().Build();
+            _connection = connection;
+            OutgoingRestClient = new Mock<IRestClient>();
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public Mock<IRestClient> OutgoingRestClient { get; }
 
-        private bool _disposed;
-        protected virtual void Dispose(bool disposing)
+        protected override TestServer CreateServer(IWebHostBuilder builder)
         {
-            if (disposing && !_disposed)
+            builder.ConfigureAppConfiguration((context, configBuilder) =>
             {
-                if (DynamoDbFixture != null)
-                    DynamoDbFixture.Dispose();
-
-                if (null != _host)
-                {
-                    _host.StopAsync().GetAwaiter().GetResult();
-                    _host.Dispose();
-                }
-
-                _disposed = true;
-            }
+                ((ConfigurationBuilder) configBuilder).AddInMemoryCollection(
+                    new Dictionary<string, string>
+                    {
+                        ["AccountAPIBaseUrl"] = "http://127.0.0.1",
+                        ["AccountAPIApiKey"] = "123",
+                        ["HousingSearchAPIBaseUrl"] = "http://127.0.0.1",
+                        ["HousingSearchAPIApiKey"] = "123"
+                    });
+            });
+            return base.CreateServer(builder);
         }
 
-        private static void EnsureEnvVarConfigured(string name, string defaultValue)
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(name)))
-                Environment.SetEnvironmentVariable(name, defaultValue);
+            builder.UseEnvironment("IntegrationTesting");
+            builder.ConfigureAppConfiguration(b => b.AddEnvironmentVariables())
+                .UseStartup<SqsFunction>();
+            builder.ConfigureServices(services =>
+            {
+                var dbBuilder = new DbContextOptionsBuilder();
+                dbBuilder.UseNpgsql(_connection);
+                var context = new DirectDebitContext(dbBuilder.Options);
+                ReplaceService(services, OutgoingRestClient.Object);
+                services.AddSingleton(context);
+
+                var serviceProvider = services.BuildServiceProvider();
+                var dbContext = serviceProvider.GetRequiredService<DirectDebitContext>();
+
+                dbContext.Database.EnsureCreated();
+            });
         }
 
-        public IHostBuilder CreateHostBuilder() => Host.CreateDefaultBuilder(null)
-           .ConfigureAppConfiguration(b => b.AddEnvironmentVariables())
-           .ConfigureServices((hostContext, services) =>
-           {
-               services.ConfigureDynamoDB();
-               services.ConfigureDynamoDbFixture();
-
-               var serviceProvider = services.BuildServiceProvider();
-
-               LogCallAspectFixture.SetupLogCallAspect();
-
-               DynamoDbFixture = serviceProvider.GetRequiredService<IDynamoDbFixture>();
-               DynamoDbFixture.EnsureTablesExist(_tables);
-           });
+        private static void ReplaceService<TService>(IServiceCollection services, TService replacement) where TService : class
+        {
+            services.RemoveAll<TService>();
+            services.AddScoped(provider => replacement);
+        }
     }
 }
