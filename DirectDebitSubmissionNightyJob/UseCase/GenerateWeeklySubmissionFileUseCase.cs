@@ -59,11 +59,18 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 
                    await _directDebitSubmissionGateway.UploadFileAsync(fileData).ConfigureAwait(false);
 
-                   foreach (var directDebit in directDebits)
-                   {
-                       await _updateRentAccountUseCase.ExecuteAsync(directDebit);
-                   }
+                   await UpdateRentAccountAsync(directDebits);
+
+                  
                 }
+            }
+        }
+
+        private async Task UpdateRentAccountAsync(List<DirectDebit> directDebits)
+        {
+            foreach (var directDebit in directDebits)
+            {
+                await _updateRentAccountUseCase.ExecuteAsync(directDebit);
             }
         }
 
