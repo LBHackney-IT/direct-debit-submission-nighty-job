@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DirectDebitSubmissionNightyJob.UseCase.Interfaces
 {
-    public interface IGenerateWeeklySubmissionFileUseCase: IMessageProcessing
+    public interface IGenerateWeeklySubmissionFileUseCase : IMessageProcessing
     {
     }
 }

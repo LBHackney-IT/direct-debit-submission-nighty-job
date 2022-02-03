@@ -1,12 +1,11 @@
+using DirectDebitSubmissionNightyJob.Extension;
+using DirectDebitSubmissionNightyJob.Services.Interfaces;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using DirectDebitSubmissionNightyJob.Extension;
-using DirectDebitSubmissionNightyJob.Services.Interfaces;
-using Newtonsoft.Json;
 
 namespace DirectDebitSubmissionNightyJob.Services.Concrete
 {

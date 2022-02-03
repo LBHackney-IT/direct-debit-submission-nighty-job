@@ -48,8 +48,8 @@ namespace DirectDebitSubmissionNightyJob
                 opt.UseNpgsql(connectionString));
 
             services.AddTransient<IRestClient, JsonRestClient>();
-            services.ConfigureAccountApiClient(Configuration);
-            services.ConfigureHousingSearchApiClient(Configuration);
+            //services.ConfigureAccountApiClient(Configuration);
+            //services.ConfigureHousingSearchApiClient(Configuration);
 
             base.ConfigureServices(services);
         }

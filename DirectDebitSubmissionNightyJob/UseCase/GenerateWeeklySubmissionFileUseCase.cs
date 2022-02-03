@@ -19,16 +19,14 @@ namespace DirectDebitSubmissionNightyJob.UseCase
         private readonly IPTXPaymentApiService _iPTXFileUploadService;
         private readonly IDirectDebitGateway _directDebitGateway;
         private readonly IMapper _mapper;
-        private readonly IUpdateRentAccountUseCase _updateRentAccountUseCase;
 
         public GenerateWeeklySubmissionFileUseCase(IDirectDebitSubmissionGateway directDebitSubmissionGateway, IPTXPaymentApiService iPTXFileUploadService,
-                                               IDirectDebitGateway directDebitGateway, IMapper mapper, IUpdateRentAccountUseCase updateRentAccountUseCase)
+                                               IDirectDebitGateway directDebitGateway, IMapper mapper)
         {
             _directDebitSubmissionGateway = directDebitSubmissionGateway;
             _iPTXFileUploadService = iPTXFileUploadService;
             _directDebitGateway = directDebitGateway;
             _mapper = mapper;
-            _updateRentAccountUseCase = updateRentAccountUseCase;
         }
 
         public async Task ProcessMessageAsync(ILogger logger)
@@ -56,22 +54,21 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                         PTXSubmissionResponse = ptxResponse?.Item2
                     };
 
-                   await _directDebitSubmissionGateway.UploadFileAsync(fileData).ConfigureAwait(false);
+                    await _directDebitSubmissionGateway.UploadFileAsync(fileData).ConfigureAwait(false);
 
-                   await UpdateRentAccountAsync(directDebits);
+                    // await UpdateRentAccountAsync(directDebits);
 
-                  
                 }
             }
         }
 
-        private async Task UpdateRentAccountAsync(List<DirectDebit> directDebits)
-        {
-            foreach (var directDebit in directDebits)
-            {
-                await _updateRentAccountUseCase.ExecuteAsync(directDebit);
-            }
-        }
+        //private async Task UpdateRentAccountAsync(List<DirectDebit> directDebits)
+        //{
+        //    foreach (var directDebit in directDebits)
+        //    {
+        //        await _updateRentAccountUseCase.ExecuteAsync(directDebit);
+        //    }
+        //}
 
         private static string GenerateHousingRentFile(List<PTXSubmissionFileData> pTXSubmissionFileDatas)
         {

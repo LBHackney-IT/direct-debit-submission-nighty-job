@@ -13,6 +13,13 @@
     <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     <NoWarn>$(NoWarn);CA1062;CA2214;CS1591;S1699;S3442;CA2000;S3925;CA1032;CA1031;S4457</NoWarn>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Services\Concrete\AccountApiService.cs" />
+    <Compile Remove="Services\Concrete\HousingSearchApiService.cs" />
+    <Compile Remove="Services\Interfaces\IAccountApiService.cs" />
+    <Compile Remove="Services\Interfaces\IHousingSearchApiService.cs" />
+    <Compile Remove="UseCase\UpdateRentAccountUseCase.cs" />
+  </ItemGroup>
     
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="2.0.0" />

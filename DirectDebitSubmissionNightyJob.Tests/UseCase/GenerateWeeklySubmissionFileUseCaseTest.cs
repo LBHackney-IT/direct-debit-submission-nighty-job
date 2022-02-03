@@ -45,7 +45,7 @@ namespace DirectDebitSubmissionNightyJob.Tests.UseCase
             _mapper = new Mapper(config);
             _exportGateway = new Mock<IDirectDebitGateway>();
             _updateRentAccountUseCase = new Mock<IUpdateRentAccountUseCase>();
-            _classUnderTest = new GenerateWeeklySubmissionFileUseCase(_mockGateway.Object, _iPTXFileUploadService.Object, _exportGateway.Object, _mapper, _updateRentAccountUseCase.Object);
+            _classUnderTest = new GenerateWeeklySubmissionFileUseCase(_mockGateway.Object, _iPTXFileUploadService.Object, _exportGateway.Object, _mapper);
             _fixture = new Fixture();
             _logger = new Mock<ILogger<GenerateWeeklySubmissionFileUseCase>>();
         }
