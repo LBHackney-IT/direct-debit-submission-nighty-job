@@ -6,7 +6,20 @@
       "workingDirectory": ".\\bin\\$(Configuration)\\netcoreapp3.1",
       "executablePath": "%USERPROFILE%\\.dotnet\\tools\\dotnet-lambda-test-tool-3.1.exe",
       "environmentVariables": {
-        "ENVIRONMENT": "LocalDevelopment"
+        "CONNECTION_STRING": "User ID =postgres;Password=123456;Server=localhost;Port=5432;Database=DirectDebit;Integrated Security=true;Pooling=true;",
+        "ENVIRONMENT": "LocalDevelopment",
+        "PTXDDSubmissionBaseUrl": "<[PTX API BASE URL]>",
+        "PTXVerifyApiKey": "<[PTX API KEY]>",
+        "RegisterPTXEmail": "<[PtxEmail]>",
+        "PTXPassword": "<[PtxPassword]>",
+        "PTXProfile": "<[PtxProfile Id]>",
+        "HackneySortCode": "<[Hackney Sort Code]>",
+        "HackneyAccountNumber": "<[Hackney Account Number]>",
+        "HackneyAccountName": "<[Hackney Account Name]>",
+        "AccountAPIBaseUrl": "<[ACCOUNT API BASE URL]>",
+        "AccountAPIApiKey": "<[ACCOUNT API KEY]>",
+        "HousingSearchAPIBaseUrl": "<[HOUSING SEARCH API BASE URL]>",
+        "HousingSearchAPIApiKey": "<[HOUSING SEARCH API KEY]>"
       }
     }
   }

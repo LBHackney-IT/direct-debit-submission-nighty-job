@@ -3,7 +3,7 @@ using Xunit;
 namespace DirectDebitSubmissionNightyJob.Tests
 {
     [CollectionDefinition("AppTest collection", DisableParallelization = true)]
-    public class AppTestCollection : ICollectionFixture<MockApplicationFactory>
+    public class AppTestCollection
     {
         // This class has no code, and is never created. Its purpose is simply
         // to be the place to apply [CollectionDefinition] and all the

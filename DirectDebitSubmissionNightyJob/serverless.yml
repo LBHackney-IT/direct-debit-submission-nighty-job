@@ -22,10 +22,22 @@ functions:
     environment:
       ### Re-use the same parameter as used by web api applications
       ENVIRONMENT:  ${ssm:/housing-tl/${self:provider.stage}/aspnetcore-environment}
+      CONNECTION_STRING: Host=${ssm:/housing-finance/${self:provider.stage}/postgres-hostname};Port=${ssm:/housing-finance/${self:provider.stage}/postgres-port};Database=${ssm:/housing-finance/${self:provider.stage}/postgres-database};Username=${ssm:/housing-finance/${self:provider.stage}/postgres-username};Password=${ssm:/housing-finance/${self:provider.stage}/postgres-password}
+      PTXDDSubmissionBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/ptx-submission-base-url}
+      PTXVerifyBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/ptx-verify-base-url}
+      PTXVerifyApiKey:  ${ssm:/housing-finance/${self:provider.stage}/ptx-verify-api-key}
+      RegisterPTXEmail:  ${ssm:/housing-finance/${self:provider.stage}/ptx-register-email}
+      PTXPassword:  ${ssm:/housing-finance/${self:provider.stage}/ptx-register-password}
+      PTXProfile:  ${ssm:/housing-finance/${self:provider.stage}/ptx-housing-rent-profile-id}
+      HackneySortCode:  ${ssm:/housing-finance/${self:provider.stage}/ptx-hackney-sort-code}
+      HackneyAccountNumber:  ${ssm:/housing-finance/${self:provider.stage}/ptx-hackney-account-number}
+      HackneyAccountName:  ${ssm:/housing-finance/${self:provider.stage}/ptx-hackney-account-name}
+      AccountAPIBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/account-api-url}
+      AccountAPIApiKey: ${ssm:/housing-finance/${self:provider.stage}/account-api-token}
+      AccountAPICreateToken: ${ssm:/housing-finance/${self:provider.stage}/account-create-token}
     events:
-      ### Specify the parameter containing the queue arn used to trigget the lambda function here
-      ### This will have been defined in the terraform configuration
-      # - sqs: ${ssm:/sqs-queue/${self:provider.stage}/tenures/arn} 
+      ### Run everyday at 1 am
+     - schedule: cron(0 1 * * *) 
       
 resources:
   Resources:
