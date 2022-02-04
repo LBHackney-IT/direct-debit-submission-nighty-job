@@ -1,7 +1,9 @@
 using AutoMapper;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Boundary.Response;
-using DirectDebitSubmissionNightyJob.Gateways;
+using DirectDebitSubmissionNightyJob.Domain;
+using DirectDebitSubmissionNightyJob.Extension;
+using DirectDebitSubmissionNightyJob.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Extensions;
 using System;
@@ -9,9 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DirectDebitSubmissionNightyJob.Domain;
-using DirectDebitSubmissionNightyJob.Extension;
-using DirectDebitSubmissionNightyJob.Infrastructure;
 
 namespace DirectDebitSubmissionNightyJob.Gateways
 {
@@ -84,16 +83,16 @@ namespace DirectDebitSubmissionNightyJob.Gateways
             if (query.DateOfCollection.HasValue)
             {
                 var response = await _directDebitContext.DirectDebitDbEntities
-                .AsNoTracking().Where(c => c.PreferredDate == query.DateOfCollection).ToListAsync().ConfigureAwait(false);
+               .AsNoTracking().Where(x => x.PreferredDate == query.DateOfCollection && !x.IsPaused && !x.IsCancelled).ToListAsync().ConfigureAwait(false);
                 list.AddRange(_mapper.Map<List<DirectDebit>>(response));
             }
             else
             {
                 if (query.DirectDebits != null && query.DirectDebits.Any())
                 {
-                    foreach (var item in query.DirectDebits)
+                    foreach (var id in query.DirectDebits)
                     {
-                        var data = await _directDebitContext.DirectDebitDbEntities.FindAsync(item).ConfigureAwait(false);
+                        var data = await _directDebitContext.DirectDebitDbEntities.FirstOrDefaultAsync(x => x.Id == id && !x.IsPaused && !x.IsCancelled).ConfigureAwait(false);
                         if (data != null)
                             list.Add(_mapper.Map<DirectDebit>(data));
                     }

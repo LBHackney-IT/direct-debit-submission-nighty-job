@@ -39,14 +39,17 @@ namespace DirectDebitSubmissionNightyJob.Gateways
                 case Domain.Enums.StatusEnum.Applied:
                     rdirectDebit.PreferredDate = dbMaintenanceEntity.NewPreferredDate.Value;
                     rdirectDebit.AdditionalAmount = dbMaintenanceEntity.NewAdditionalAmount.Value;
+                    rdirectDebit.IsCancelled = false;
+                    rdirectDebit.IsPaused = false;
                     break;
                 case Domain.Enums.StatusEnum.Cancelled:
                     rdirectDebit.CancellationDate = DateTime.UtcNow;
+                    rdirectDebit.IsCancelled = true;
                     break;
                 case Domain.Enums.StatusEnum.Paused:
                     {
                         int duration = dbMaintenanceEntity.PauseDuration.Value;
-                        rdirectDebit.IsPause = true;
+                        rdirectDebit.IsPaused = true;
                         rdirectDebit.PauseDate = DateTime.UtcNow;
                         rdirectDebit.PauseTillDate = duration > 0 ? DateTime.UtcNow.AddMonths(duration) : (DateTime?) null;
                         break;
