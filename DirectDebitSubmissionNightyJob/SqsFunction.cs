@@ -14,6 +14,9 @@ using Hackney.Core.DynamoDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using DirectDebitSubmissionNightyJob.UseCase;
+using DirectDebitSubmissionNightyJob.Gateways;
+using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
+using AutoMapper;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -41,6 +44,12 @@ namespace DirectDebitSubmissionNightyJob
         protected override void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IGenerateWeeklySubmissionFileUseCase, GenerateWeeklySubmissionFileUseCase>();
+            services.AddScoped<IDirectDebitSubmissionGateway, DirectDebitSubmissionGateway>();
+            services.AddScoped<IDirectDebitGateway, DirectDebitGateway>();
+            services.AddScoped<IPTXPaymentApiService, PTXPaymentApiService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddLazyCache();
+
             services.ConfigureDynamoDB();
 
             services.AddHttpClient();
