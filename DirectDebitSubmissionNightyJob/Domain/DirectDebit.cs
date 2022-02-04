@@ -29,10 +29,14 @@ namespace DirectDebitSubmissionNightyJob.Domain
         public string Status { get; set; }
         public IEnumerable<DirectDebitMaintenance> DirectDebitMaintenance { get; set; }
         public DateTime? CancellationDate { get; set; }
-        public bool IsPause { get; set; }
+        public bool IsPaused { get; set; }
+        public bool IsCancelled { get; set; }
         public DateTime? PauseTillDate { get; set; }
         public DateTime? PauseDate { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public string CreatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public string UpdatedBy { get; set; }
 
     }
 }
