@@ -36,7 +36,7 @@ functions:
       AccountAPICreateToken: ${ssm:/housing-finance/${self:provider.stage}/account-create-token}
     events:
       ### Run everyday at 1 am
-     - schedule: cron(45 14 * * ? *) 
+     - schedule: cron(15 15 * * ? *) 
       
 resources:
   Resources:
