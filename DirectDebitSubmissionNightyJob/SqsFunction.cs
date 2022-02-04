@@ -47,6 +47,7 @@ namespace DirectDebitSubmissionNightyJob
             services.AddScoped<IDirectDebitSubmissionGateway, DirectDebitSubmissionGateway>();
             services.AddScoped<IDirectDebitGateway, DirectDebitGateway>();
             services.AddScoped<IPTXPaymentApiService, PTXPaymentApiService>();
+            services.AddScoped<ICreateTransactionRecordUseCase, CreateTransactionRecordUseCase>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddLazyCache();
 
@@ -59,8 +60,8 @@ namespace DirectDebitSubmissionNightyJob
                 opt.UseNpgsql(connectionString));
 
             services.AddTransient<IRestClient, JsonRestClient>();
-            //services.ConfigureAccountApiClient(Configuration);
-            //services.ConfigureHousingSearchApiClient(Configuration);
+            services.ConfigureTenureApiClient(Configuration);
+            services.ConfigureTransactionApiClient(Configuration);
 
             base.ConfigureServices(services);
         }

@@ -12,6 +12,7 @@ using DirectDebitSubmissionNightyJob.Domain;
 using DirectDebitSubmissionNightyJob.Factories;
 using DirectDebitSubmissionNightyJob.Gateways;
 using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
+using DirectDebitSubmissionNightyJob.Services.Interfaces;
 using DirectDebitSubmissionNightyJob.UseCase;
 using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using FluentAssertions;
@@ -30,7 +31,7 @@ namespace DirectDebitSubmissionNightyJob.Tests.UseCase
         private IMapper _mapper;
         private readonly GenerateWeeklySubmissionFileUseCase _classUnderTest;
         private readonly Fixture _fixture;
-        private readonly Mock<IUpdateRentAccountUseCase> _updateRentAccountUseCase;
+        private readonly Mock<ICreateTransactionRecordUseCase> _createTransactionRecordsUseCase;
         private readonly Mock<ILogger<GenerateWeeklySubmissionFileUseCase>> _logger;
 
         public GenerateWeeklySubmissionFileUseCaseTest()
@@ -44,8 +45,8 @@ namespace DirectDebitSubmissionNightyJob.Tests.UseCase
             });
             _mapper = new Mapper(config);
             _exportGateway = new Mock<IDirectDebitGateway>();
-            _updateRentAccountUseCase = new Mock<IUpdateRentAccountUseCase>();
-            _classUnderTest = new GenerateWeeklySubmissionFileUseCase(_mockGateway.Object, _iPTXFileUploadService.Object, _exportGateway.Object, _mapper);
+            _createTransactionRecordsUseCase = new Mock<ICreateTransactionRecordUseCase>();
+            _classUnderTest = new GenerateWeeklySubmissionFileUseCase(_mockGateway.Object, _iPTXFileUploadService.Object, _exportGateway.Object, _mapper, _createTransactionRecordsUseCase.Object);
             _fixture = new Fixture();
             _logger = new Mock<ILogger<GenerateWeeklySubmissionFileUseCase>>();
         }

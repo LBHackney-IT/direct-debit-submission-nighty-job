@@ -31,10 +31,10 @@ namespace DirectDebitSubmissionNightyJob.Tests
                 ((ConfigurationBuilder) configBuilder).AddInMemoryCollection(
                     new Dictionary<string, string>
                     {
-                        ["AccountAPIBaseUrl"] = "http://127.0.0.1",
-                        ["AccountAPIApiKey"] = "123",
-                        ["HousingSearchAPIBaseUrl"] = "http://127.0.0.1",
-                        ["HousingSearchAPIApiKey"] = "123"
+                        ["TenureAPIBaseUrl"] = "http://127.0.0.1",
+                        ["TenureAPIApiKey"] = "123",
+                        ["TransactionAPIBaseUrl"] = "http://127.0.0.1",
+                        ["TransactionAPIApiKey"] = "123"
                     });
             });
             return base.CreateServer(builder);

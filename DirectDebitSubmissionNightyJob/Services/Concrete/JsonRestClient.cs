@@ -33,6 +33,14 @@ namespace DirectDebitSubmissionNightyJob.Services.Concrete
         }
 
         /// <summary>
+        /// Sends a POST method to specified url, passing a body in JSON format
+        /// </summary>
+        public async Task<TResult> PostAsync<TResult>(string url, object payload, string errorMessage)
+        {
+            return await SubmitRequest<TResult>(url, payload, errorMessage, HttpMethod.Post).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Sends a PATCH method to specified url, passing a body in JSON format
         /// </summary>
         public async Task<TResult> PatchAsync<TResult>(string url, object payload, string errorMessage)
