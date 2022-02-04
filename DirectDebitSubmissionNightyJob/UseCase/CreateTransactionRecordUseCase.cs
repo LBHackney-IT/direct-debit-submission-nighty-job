@@ -53,7 +53,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                     Person = new Person()
                     {
                         Id = tenureInfo.HouseholdMembers.FirstOrDefault()?.Id,
-                        FullName  = tenureInfo.HouseholdMembers.FirstOrDefault()?.FullName
+                        FullName = tenureInfo.HouseholdMembers.FirstOrDefault()?.FullName
                     },
                     Fund = directDebit.Fund,
                     FinancialMonth = DateTime.UtcNow.Month,
