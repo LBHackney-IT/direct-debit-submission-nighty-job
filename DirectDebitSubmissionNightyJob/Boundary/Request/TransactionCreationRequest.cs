@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DirectDebitSubmissionNightyJob.Boundary.Request
 {
@@ -12,16 +10,16 @@ namespace DirectDebitSubmissionNightyJob.Boundary.Request
         public int PeriodNo { get; set; }
         public string TransactionSource { get; set; }
         public DateTime TransactionDate { get; set; }
-        public double TransactionAmount { get; set; }
+        public decimal TransactionAmount { get; set; }
         public string PaymentReference { get; set; }
         public string BankAccountNumber { get; set; }
         public string SortCode { get; set; }
-        public double PaidAmount { get; set; }
-        public double ChargedAmount { get; set; }
-        public int BalanceAmount { get; set; }
-        public double HousingBenefitAmount { get; set; }
+        public decimal PaidAmount { get; set; }
+        public decimal ChargedAmount { get; set; }
+        public decimal BalanceAmount { get; set; }
+        public decimal HousingBenefitAmount { get; set; }
         public string Address { get; set; }
-        public Person Person { get; set; }
+        public Sender Sender { get; set; }
         public string Fund { get; set; }
         public int FinancialYear { get; set; }
         public int FinancialMonth { get; set; }

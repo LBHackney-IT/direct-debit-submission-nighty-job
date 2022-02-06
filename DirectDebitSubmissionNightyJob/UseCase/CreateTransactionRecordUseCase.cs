@@ -45,12 +45,12 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                     PaymentReference = directDebit.PaymentReference,
                     BankAccountNumber = directDebit.BankAccountNumber,
                     SortCode = directDebit.BranchSortCode,
-                    PaidAmount = (double) directDebit.AdditionalAmount,
+                    PaidAmount = directDebit.AdditionalAmount,
                     ChargedAmount = 0,
                     BalanceAmount = 0,
                     HousingBenefitAmount = 0,
                     Address = tenureInfo.TenuredAsset.FullAddress,
-                    Person = new Person()
+                    Sender = new Sender()
                     {
                         Id = tenureInfo.HouseholdMembers.FirstOrDefault()?.Id,
                         FullName = tenureInfo.HouseholdMembers.FirstOrDefault()?.FullName

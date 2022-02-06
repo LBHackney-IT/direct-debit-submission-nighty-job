@@ -3,7 +3,7 @@ using System;
 namespace DirectDebitSubmissionNightyJob.Boundary
 {
 
-    public class Person
+    public class Sender
     {
         public string Id { get; set; }
         public string FullName { get; set; }
@@ -27,7 +27,7 @@ namespace DirectDebitSubmissionNightyJob.Boundary
         public int BalanceAmount { get; set; }
         public double HousingBenefitAmount { get; set; }
         public string Address { get; set; }
-        public Person Person { get; set; }
+        public Sender Sender { get; set; }
         public string Fund { get; set; }
     }
 
