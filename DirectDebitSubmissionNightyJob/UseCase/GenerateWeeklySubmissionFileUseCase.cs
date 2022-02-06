@@ -6,10 +6,14 @@ using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2.Model;
 using AutoMapper;
+using DirectDebitSubmissionNightyJob.Boundary;
+using DirectDebitSubmissionNightyJob.Services.Interfaces;
 
 namespace DirectDebitSubmissionNightyJob.UseCase
 {
@@ -19,14 +23,19 @@ namespace DirectDebitSubmissionNightyJob.UseCase
         private readonly IPTXPaymentApiService _iPTXFileUploadService;
         private readonly IDirectDebitGateway _directDebitGateway;
         private readonly IMapper _mapper;
+        private readonly ICreateTransactionRecordUseCase _createTransactionRecordUseCase;
 
-        public GenerateWeeklySubmissionFileUseCase(IDirectDebitSubmissionGateway directDebitSubmissionGateway, IPTXPaymentApiService iPTXFileUploadService,
-                                               IDirectDebitGateway directDebitGateway, IMapper mapper)
+        public GenerateWeeklySubmissionFileUseCase(IDirectDebitSubmissionGateway directDebitSubmissionGateway,
+            IPTXPaymentApiService iPTXFileUploadService,
+            IDirectDebitGateway directDebitGateway,
+            IMapper mapper,
+            ICreateTransactionRecordUseCase createTransactionRecordUseCase)
         {
             _directDebitSubmissionGateway = directDebitSubmissionGateway;
             _iPTXFileUploadService = iPTXFileUploadService;
             _directDebitGateway = directDebitGateway;
             _mapper = mapper;
+            _createTransactionRecordUseCase = createTransactionRecordUseCase;
         }
 
         public async Task ProcessMessageAsync(ILogger logger)
@@ -56,19 +65,11 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 
                     await _directDebitSubmissionGateway.UploadFileAsync(fileData).ConfigureAwait(false);
 
-                    // await UpdateRentAccountAsync(directDebits);
-
+                    // Create transaction record on Transaction API
+                    await _createTransactionRecordUseCase.CreateTransactionRecordAsync(directDebits);
                 }
             }
         }
-
-        //private async Task UpdateRentAccountAsync(List<DirectDebit> directDebits)
-        //{
-        //    foreach (var directDebit in directDebits)
-        //    {
-        //        await _updateRentAccountUseCase.ExecuteAsync(directDebit);
-        //    }
-        //}
 
         private static string GenerateHousingRentFile(List<PTXSubmissionFileData> pTXSubmissionFileDatas)
         {
@@ -79,6 +80,13 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                 sb.AppendLine($"{item.Sort,-6}{item.Number,-8}0{item.Type}{Environment.GetEnvironmentVariable("HackneySortCode"),-6}{Environment.GetEnvironmentVariable("HackneyAccountNumber"),-8}0000{item.Amount}{Environment.GetEnvironmentVariable("HackneyAccountName"),-18}{item.Ref.Substring(0, 10)}hsg rent{item.Name,-18} {date}");
             }
             return sb.ToString();
+        }
+
+        public int GetWeekNumber()
+        {
+            CultureInfo ciCurr = CultureInfo.CurrentCulture;
+            int weekNum = ciCurr.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            return weekNum;
         }
     }
 }

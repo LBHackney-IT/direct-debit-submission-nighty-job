@@ -12,29 +12,29 @@ namespace DirectDebitSubmissionNightyJob.Extension
 {
     public static class ServiceExtensions
     {
-        //public static void ConfigureAccountApiClient(this IServiceCollection services, IConfiguration configuration)
-        //{
-        //    var url = Environment.GetEnvironmentVariable("AccountAPIBaseUrl") ?? configuration["AccountAPI:BaseUrl"];
-        //    services
-        //        .AddHttpClient<IAccountApiService, AccountApiService>(client =>
-        //        {
-        //            client.BaseAddress = new Uri(url);
-        //            client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("AccountAPIApiKey"));
-        //        })
-        //        .ConfigureMessageHandlers();
-        //}
+        public static void ConfigureTenureApiClient(this IServiceCollection services, IConfiguration configuration)
+        {
+            var url = Environment.GetEnvironmentVariable("TenureApiBaseUrl") ?? configuration["TenureApi:BaseUrl"];
+            services
+                .AddHttpClient<ITenureApiService, TenureApiService>(client =>
+                {
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("TenureApiKey"));
+                })
+                .ConfigureMessageHandlers();
+        }
 
-        //public static void ConfigureHousingSearchApiClient(this IServiceCollection services, IConfiguration configuration)
-        //{
-        //    var url = Environment.GetEnvironmentVariable("HousingSearchAPIBaseUrl") ?? configuration["HousingSearchAPI:BaseUrl"];
-        //    services
-        //        .AddHttpClient<IHousingSearchApiService, HousingSearchApiService>(client =>
-        //        {
-        //            client.BaseAddress = new Uri(url);
-        //            client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("HousingSearchAPIApiKey"));
-        //        })
-        //        .ConfigureMessageHandlers();
-        //}
+        public static void ConfigureTransactionApiClient(this IServiceCollection services, IConfiguration configuration)
+        {
+            var url = Environment.GetEnvironmentVariable("TransactionApiBaseUrl") ?? configuration["TransactionApi:BaseUrl"];
+            services
+                .AddHttpClient<ITransactionApiService, TransactionApiService>(client =>
+                {
+                    client.BaseAddress = new Uri(url);
+                    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("TransactionApiKey"));
+                })
+                .ConfigureMessageHandlers();
+        }
 
         private static IHttpClientBuilder ConfigureMessageHandlers(this IHttpClientBuilder builder)
         {

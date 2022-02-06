@@ -22,6 +22,11 @@ namespace DirectDebitSubmissionNightyJob.Services.Interfaces
         Task<TResult> GetAsync<TResult>(string url, string errorMessage);
 
         /// <summary>
+        /// Sends a POST method with payload in request body to specified url
+        /// </summary>
+        Task<TResult> PostAsync<TResult>(string url, object payload, string errorMessage);
+
+        /// <summary>
         /// Sends a PATCH request with payload in request body  to specified url.
         /// </summary>
         Task<TResult> PatchAsync<TResult>(string url, object payload, string errorMessage);
