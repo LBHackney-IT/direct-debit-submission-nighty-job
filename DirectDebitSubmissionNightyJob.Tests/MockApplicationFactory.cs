@@ -29,13 +29,13 @@ namespace DirectDebitSubmissionNightyJob.Tests
             builder.ConfigureAppConfiguration((context, configBuilder) =>
             {
                 ((ConfigurationBuilder) configBuilder).AddInMemoryCollection(
-                    new Dictionary<string, string>
-                    {
-                        ["TenureApiBaseUrl"] = "http://127.0.0.1",
-                        ["TenureApiKey"] = "123",
-                        ["TransactionApiBaseUrl"] = "http://127.0.0.1",
-                        ["TransactionApiKey"] = "123"
-                    });
+                     new Dictionary<string, string>
+                     {
+                         ["TenureApiUrl"] = "http://127.0.0.1",
+                         ["TenureApiToken"] = "123",
+                         ["TransactionApiUrl"] = "http://127.0.0.1",
+                         ["TransactionApiToken"] = "123"
+                     });
             });
             return base.CreateServer(builder);
         }

@@ -31,13 +31,13 @@ functions:
       HackneySortCode:  ${ssm:/housing-finance/${self:provider.stage}/ptx-hackney-sort-code}
       HackneyAccountNumber:  ${ssm:/housing-finance/${self:provider.stage}/ptx-hackney-account-number}
       HackneyAccountName:  ${ssm:/housing-finance/${self:provider.stage}/ptx-hackney-account-name}
-      TenureApiBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/tenure-api-url}
-      TenureApiKey: ${ssm:/housing-finance/${self:provider.stage}/tenure-api-token}
-      TransactionApiBaseUrl: ${ssm:/housing-finance/${self:provider.stage}/financial-transactions-api-url}
-      TransactionApiKey: ${ssm:/housing-finance/${self:provider.stage}/financial-transactions-api-key}
+      TenureApiUrl: ${ssm:/housing-finance/${self:provider.stage}/tenure-api-url}
+      TenureApiToken: ${ssm:/housing-finance/${self:provider.stage}/tenure-api-token}
+      TransactionApiUrl: ${ssm:/housing-finance/${self:provider.stage}/financial-transactions-api-url}
+      TransactionApiToken: ${ssm:/housing-finance/${self:provider.stage}/financial-transactions-api-token}
     events:
       ### Run everyday at 1 am
-     - schedule: cron(0 18 * * ? *) 
+     - schedule: cron(0 1 * * ? *) 
       
 resources:
   Resources:
