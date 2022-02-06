@@ -1,16 +1,13 @@
+using DirectDebitSubmissionNightyJob.Boundary;
+using DirectDebitSubmissionNightyJob.Boundary.Request;
+using DirectDebitSubmissionNightyJob.Domain;
+using DirectDebitSubmissionNightyJob.Services.Interfaces;
+using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
-using DirectDebitSubmissionNightyJob.Boundary;
-using DirectDebitSubmissionNightyJob.Boundary.Request;
-using DirectDebitSubmissionNightyJob.Domain;
-using DirectDebitSubmissionNightyJob.Helpers;
-using DirectDebitSubmissionNightyJob.Services.Interfaces;
-using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 
 namespace DirectDebitSubmissionNightyJob.UseCase
 {

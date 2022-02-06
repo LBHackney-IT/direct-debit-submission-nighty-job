@@ -1,7 +1,8 @@
-using DirectDebitSubmissionNightyJob.Gateways;
-using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
+using AutoMapper;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Domain;
+using DirectDebitSubmissionNightyJob.Gateways;
+using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
 using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,10 +11,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Amazon.DynamoDBv2.Model;
-using AutoMapper;
-using DirectDebitSubmissionNightyJob.Boundary;
-using DirectDebitSubmissionNightyJob.Services.Interfaces;
 
 namespace DirectDebitSubmissionNightyJob.UseCase
 {

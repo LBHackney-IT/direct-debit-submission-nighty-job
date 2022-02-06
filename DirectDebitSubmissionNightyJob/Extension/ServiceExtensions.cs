@@ -14,24 +14,26 @@ namespace DirectDebitSubmissionNightyJob.Extension
     {
         public static void ConfigureTenureApiClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var url = Environment.GetEnvironmentVariable("TenureApiBaseUrl") ?? configuration["TenureApi:BaseUrl"];
+            var url = Environment.GetEnvironmentVariable("TenureApiUrl") ?? "http://test.com/";
+            var token = Environment.GetEnvironmentVariable("TenureApiToken") ?? "token";
             services
                 .AddHttpClient<ITenureApiService, TenureApiService>(client =>
                 {
                     client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("TenureApiKey"));
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
                 })
                 .ConfigureMessageHandlers();
         }
 
         public static void ConfigureTransactionApiClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var url = Environment.GetEnvironmentVariable("TransactionApiBaseUrl") ?? configuration["TransactionApi:BaseUrl"];
+            var url = Environment.GetEnvironmentVariable("TransactionApiUrl") ?? "http://test.com/";
+            var token = Environment.GetEnvironmentVariable("TransactionApiToken") ?? "token";
             services
                 .AddHttpClient<ITransactionApiService, TransactionApiService>(client =>
                 {
                     client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Add("X-Api-Key", Environment.GetEnvironmentVariable("TransactionApiKey"));
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
                 })
                 .ConfigureMessageHandlers();
         }
