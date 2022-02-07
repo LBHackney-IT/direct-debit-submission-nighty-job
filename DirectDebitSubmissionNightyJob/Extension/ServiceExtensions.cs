@@ -14,8 +14,9 @@ namespace DirectDebitSubmissionNightyJob.Extension
     {
         public static void ConfigureTenureApiClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var url = Environment.GetEnvironmentVariable("TenureApiUrl") ?? "http://test.com/";
+            var url = Environment.GetEnvironmentVariable("TenureApiBaseUrl") ?? configuration["TenureApi:BaseUrl"];
             var token = Environment.GetEnvironmentVariable("TenureApiToken") ?? "token";
+
             services
                 .AddHttpClient<ITenureApiService, TenureApiService>(client =>
                 {
@@ -27,8 +28,9 @@ namespace DirectDebitSubmissionNightyJob.Extension
 
         public static void ConfigureTransactionApiClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var url = Environment.GetEnvironmentVariable("TransactionApiUrl") ?? "http://test.com/";
+            var url = Environment.GetEnvironmentVariable("TransactionApiBaseUrl") ?? configuration["TransactionApi:BaseUrl"];
             var token = Environment.GetEnvironmentVariable("TransactionApiToken") ?? "token";
+
             services
                 .AddHttpClient<ITransactionApiService, TransactionApiService>(client =>
                 {
