@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using DirectDebitSubmissionNightyJob.Exceptions;
 using DirectDebitSubmissionNightyJob.Exceptions.Models;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DirectDebitSubmissionNightyJob.Extension
 {

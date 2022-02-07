@@ -1,25 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.Runtime.Internal.Util;
 using AutoFixture;
 using AutoMapper;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Boundary.Response;
 using DirectDebitSubmissionNightyJob.Domain;
 using DirectDebitSubmissionNightyJob.Factories;
-using DirectDebitSubmissionNightyJob.Gateways;
-using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
-using DirectDebitSubmissionNightyJob.Services.Interfaces;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using DirectDebitSubmissionNightyJob.UseCase;
 using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace DirectDebitSubmissionNightyJob.Tests.UseCase
 {

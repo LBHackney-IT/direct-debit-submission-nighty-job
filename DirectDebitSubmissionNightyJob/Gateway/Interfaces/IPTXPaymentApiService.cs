@@ -2,7 +2,7 @@ using DirectDebitSubmissionNightyJob.Boundary.Response;
 using System;
 using System.Threading.Tasks;
 
-namespace DirectDebitSubmissionNightyJob.Gateways.Interfaces
+namespace DirectDebitSubmissionNightyJob.Gateway.Interfaces
 {
     public interface IPTXPaymentApiService
     {

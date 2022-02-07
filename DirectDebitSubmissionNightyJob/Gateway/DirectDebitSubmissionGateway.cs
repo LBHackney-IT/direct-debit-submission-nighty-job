@@ -1,15 +1,14 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Domain;
 using DirectDebitSubmissionNightyJob.Factories;
-using DirectDebitSubmissionNightyJob.Gateways;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using DirectDebitSubmissionNightyJob.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DirectDebitSubmissionNightyJob.Gateways
+namespace DirectDebitSubmissionNightyJob.Gateway
 {
     public class DirectDebitSubmissionGateway : IDirectDebitSubmissionGateway
     {

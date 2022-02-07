@@ -14,9 +14,9 @@ using Hackney.Core.DynamoDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using DirectDebitSubmissionNightyJob.UseCase;
-using DirectDebitSubmissionNightyJob.Gateways;
-using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
 using AutoMapper;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
+using DirectDebitSubmissionNightyJob.Gateway;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]

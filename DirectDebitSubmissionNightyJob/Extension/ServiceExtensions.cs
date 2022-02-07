@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Authentication;
 using System.Text;
-using DirectDebitSubmissionNightyJob.Services.Concrete;
-using DirectDebitSubmissionNightyJob.Services.Interfaces;
+using DirectDebitSubmissionNightyJob.Gateway;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

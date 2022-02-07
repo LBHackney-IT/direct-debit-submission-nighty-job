@@ -1,7 +1,7 @@
 using DirectDebitSubmissionNightyJob.Boundary;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Domain;
-using DirectDebitSubmissionNightyJob.Services.Interfaces;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -63,7 +63,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
             await _transactionApiService.CreateTransactionRecord(transactionCreationRequests);
         }
 
-        private int GetWeekNumber()
+        private static int GetWeekNumber()
         {
             CultureInfo ciCurr = CultureInfo.CurrentCulture;
             int weekNum = ciCurr.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);

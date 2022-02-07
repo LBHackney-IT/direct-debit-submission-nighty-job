@@ -1,12 +1,11 @@
-using System;
+using DirectDebitSubmissionNightyJob.Boundary.Request;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
+using DirectDebitSubmissionNightyJob.Services.Interfaces;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using DirectDebitSubmissionNightyJob.Boundary.Request;
-using DirectDebitSubmissionNightyJob.Services.Interfaces;
 
-namespace DirectDebitSubmissionNightyJob.Services.Concrete
+namespace DirectDebitSubmissionNightyJob.Gateway
 {
     public class TransactionApiService : ITransactionApiService
     {

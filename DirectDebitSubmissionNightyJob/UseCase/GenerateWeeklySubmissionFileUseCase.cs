@@ -1,8 +1,7 @@
 using AutoMapper;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Domain;
-using DirectDebitSubmissionNightyJob.Gateways;
-using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
@@ -37,7 +36,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 
         public async Task ProcessMessageAsync(ILogger logger)
         {
-            var collectionDate = DateTime.UtcNow.Day;
+            var collectionDate = 5;//DateTime.UtcNow.Day;
             var submissionRequest = new DirectDebitSubmissionRequest { DateOfCollection = collectionDate };
             var directDebits = await _directDebitGateway.GetAllDirectDebitsByQueryAsync(submissionRequest).ConfigureAwait(false);
 
