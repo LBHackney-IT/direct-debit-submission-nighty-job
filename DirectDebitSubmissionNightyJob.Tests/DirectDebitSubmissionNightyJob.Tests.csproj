@@ -48,7 +48,6 @@
   </ItemGroup>
     
   <ItemGroup>
-    <Folder Include="E2ETests\Stories\" />
     <Folder Include="Factories\" />
     <Folder Include="Gateway\" />
   </ItemGroup>
