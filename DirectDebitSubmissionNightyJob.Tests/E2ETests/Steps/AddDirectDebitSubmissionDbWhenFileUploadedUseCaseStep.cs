@@ -47,7 +47,7 @@ namespace DirectDebitSubmissionNightyJob.Tests.E2ETests.Steps
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
-            var entityInDb = await dbContext.DirectDebitSubmissionDbEntities.SingleOrDefaultAsync(x =>x.Id == id);
+            var entityInDb = await dbContext.DirectDebitSubmissionDbEntities.SingleOrDefaultAsync(x => x.Id == id);
             entityInDb.Should().NotBeNull();
             entityInDb.Id.Should().Be(id);
         }
