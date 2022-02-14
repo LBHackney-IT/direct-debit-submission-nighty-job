@@ -18,8 +18,8 @@ services:
     env_file:
       - database.env
     image: postgres:12
-    volumes:
-      - ./database:/docker-entrypoint-initdb.d
+    #volumes:
+    #  - ./database:/docker-entrypoint-initdb.d
 
   direct-debit-submission-nighty-job-test:
     image: direct-debit-submission-nighty-job-test
@@ -52,6 +52,6 @@ services:
       - 5432:5432
     env_file:
       - database.env
-    volumes:
-      - ./database:/docker-entrypoint-initdb.d
+    #volumes:
+    #  - ./database:/docker-entrypoint-initdb.d
       
