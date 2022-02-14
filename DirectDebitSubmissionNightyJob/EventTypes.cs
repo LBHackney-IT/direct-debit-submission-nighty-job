@@ -1,8 +1,7 @@
 namespace DirectDebitSubmissionNightyJob
 {
-    public static class EventTypes
+    public enum EventTypes
     {
-        // Define the event types this service will be interested in here.
-        public const string DoSomethingEvent = "DoSomethingEvent";
+        SubmissionFileUploaded
     }
 }

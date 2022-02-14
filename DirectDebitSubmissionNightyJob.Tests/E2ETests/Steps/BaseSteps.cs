@@ -22,11 +22,10 @@ namespace DirectDebitSubmissionNightyJob.Tests.E2ETests.Steps
         public BaseSteps()
         { }
 
-        protected SQSEvent.SQSMessage CreateMessage(Guid personId, string eventType = EventTypes.DoSomethingEvent)
+        protected SQSEvent.SQSMessage CreateMessage(Guid personId)
         {
             var personSns = _fixture.Build<EntityEventSns>()
                                     .With(x => x.EntityId, personId)
-                                    .With(x => x.EventType, eventType)
                                     .Create();
 
             var msgBody = JsonSerializer.Serialize(personSns, _jsonOptions);

@@ -1,8 +1,7 @@
 using AutoMapper;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Domain;
-using DirectDebitSubmissionNightyJob.Gateways;
-using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;

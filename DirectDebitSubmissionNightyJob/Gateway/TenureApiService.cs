@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using DirectDebitSubmissionNightyJob.Boundary.Response;
-using DirectDebitSubmissionNightyJob.Boundary.Response.Account;
-using DirectDebitSubmissionNightyJob.Helpers;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using DirectDebitSubmissionNightyJob.Services.Interfaces;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-namespace DirectDebitSubmissionNightyJob.Services.Concrete
+namespace DirectDebitSubmissionNightyJob.Gateway
 {
     public class TenureApiService : ITenureApiService
     {

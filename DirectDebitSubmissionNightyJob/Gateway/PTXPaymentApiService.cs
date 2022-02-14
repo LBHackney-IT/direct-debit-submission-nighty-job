@@ -1,4 +1,3 @@
-using DirectDebitSubmissionNightyJob.Gateways.Interfaces;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Boundary.Response;
 using Microsoft.Extensions.Configuration;
@@ -13,8 +12,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using DirectDebitSubmissionNightyJob.Helpers;
 using LazyCache;
+using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 
-namespace DirectDebitSubmissionNightyJob.Gateways
+namespace DirectDebitSubmissionNightyJob.Gateway
 {
     public class PTXPaymentApiService : IPTXPaymentApiService
     {
@@ -55,6 +55,7 @@ namespace DirectDebitSubmissionNightyJob.Gateways
             {
                 throw new ArgumentException($"Configuration does not contain a ptx setting value for the parameter {ProfileId}.");
             }
+            _profileId = "44292";
         }
 
         public async Task<Tuple<bool, ResultSummaryResponse>> SubmitDirectDebitFile(byte[] bytes, string fileName)
@@ -96,6 +97,8 @@ namespace DirectDebitSubmissionNightyJob.Gateways
                 var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var contentResult = JsonSerializer.Deserialize<UploadedFileResponse>(body);
                 var id = contentResult.Pollurl.Split('/').Where(x => !string.IsNullOrWhiteSpace(x)).LastOrDefault();
+                //wait for some nano seconds before confirmating the status
+                await Task.Delay(800);
                 var confirmData = await GetResultSummaryByFileIdAsync(id, authData).ConfigureAwait(false);
                 var status = confirmData.Status == "SUCCESS";
                 return new Tuple<bool, ResultSummaryResponse>(status, confirmData);

@@ -11,15 +11,15 @@ services:
     ports:
       - 3000:3000
     environment:
-     - ENVIRONMENT=LocalDevelopment
-      # Alter if not using DynamoDb
-     - DynamoDb_LocalMode=true
-     - DynamoDb_LocalServiceUrl=http://dynamodb-database:8000
-     - AWS_REGION=eu-west-2
-     - AWS_ACCESS_KEY_ID=local
-     - AWS_SECRET_ACCESS_KEY=local
+     - CONNECTION_STRING=Host=dev-database;Port=5432;Database=testdb;Username=postgres;Password=mypassword
     links:
-      - dynamodb-database
+      - dev-database
+  dev-database:
+    env_file:
+      - database.env
+    image: postgres:12
+    #volumes:
+    #  - ./database:/docker-entrypoint-initdb.d
 
   direct-debit-submission-nighty-job-test:
     image: direct-debit-submission-nighty-job-test
@@ -29,19 +29,29 @@ services:
       args:
         - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
     environment:
-      - ENVIRONMENT=LocalDevelopment
-      # Alter if not using DynamoDb
-      - DynamoDb_LocalMode=true
-      - DynamoDb_LocalServiceUrl=http://dynamodb-database:8000
-      - AWS_REGION=eu-west-2
-      - AWS_ACCESS_KEY_ID=local
-      - AWS_SECRET_ACCESS_KEY=local
+      - DB_HOST=test-database
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=mypassword
+      - DB_DATABASE=testdb
     links:
-      - dynamodb-database
+      - test-database
     
   # Alter if not using DynamoDb
   dynamodb-database:
     image: amazon/dynamodb-local
     ports:
       - 8000:8000
+
+  test-database:
+    image: postgres:12-buster
+    #build:
+    #  context: .
+    #  dockerfile: database/Dockerfile
+    ports:
+      - 5432:5432
+    env_file:
+      - database.env
+    #volumes:
+    #  - ./database:/docker-entrypoint-initdb.d
       

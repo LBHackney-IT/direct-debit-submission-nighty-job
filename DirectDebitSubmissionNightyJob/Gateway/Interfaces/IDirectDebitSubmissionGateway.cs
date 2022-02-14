@@ -3,7 +3,7 @@ using DirectDebitSubmissionNightyJob.Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DirectDebitSubmissionNightyJob.Gateways
+namespace DirectDebitSubmissionNightyJob.Gateway.Interfaces
 {
     public interface IDirectDebitSubmissionGateway
     {
