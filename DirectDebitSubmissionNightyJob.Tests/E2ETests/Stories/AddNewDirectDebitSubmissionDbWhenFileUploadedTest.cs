@@ -9,7 +9,7 @@ using Xunit;
 namespace DirectDebitSubmissionNightyJob.Tests.E2ETests.Stories
 {
     [Collection("Aws collection")]
-    public class AddNewDirectDebitSubmissionDbWhenFileUploadedTest : AwsIntegrationTest<SqsFunction>
+    public class AddNewDirectDebitSubmissionDbWhenFileUploadedTest : IntegrationTest
     {
         private readonly TenureApiFixture _tenureApiFixture;
         private readonly TransactionApiFixture _transactionApiFixture;

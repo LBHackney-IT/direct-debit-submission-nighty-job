@@ -18,7 +18,7 @@ namespace DirectDebitSubmissionNightyJob.Tests
         private const string Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTIyNDE2MjU4ODQ1MjgxMDQxNDAiLCJlbWFpbCI6ImRlbmlzZS5udWRnZUBoYWNrbmV5Lmdvdi51ayIsImlzcyI6IkhhY2tuZXkiLCJuYW1lIjoiRGVuaXNlIE51ZGdlIiwiZ3JvdXBzIjpbInNvbWUtdmFsaWQtZ29vZ2xlLWdyb3VwIl0sImlhdCI6MTYzOTQxNzE4OX0.Rai_olTwhVugBY8L8bpyhSGxX3lLB-ZLqxlSDQh96nE";
         public HttpClient Client { get; private set; }
         public DirectDebitContext DatabaseContext { get; private set; }
-        private MockWebApplicationFactory<TStartup> _factory;
+        private MockWebApplicationFactory _factory;
         private NpgsqlConnection _connection;
         private DbTransaction _transaction;
         private DbContextOptionsBuilder _builder;
@@ -52,9 +52,9 @@ namespace DirectDebitSubmissionNightyJob.Tests
 
 
 
-            _factory = new MockWebApplicationFactory<TStartup>(_connection);
+            _factory = new MockWebApplicationFactory(_connection);
 
-            Client = _factory.CreateClient(new WebApplicationFactoryClientOptions());
+            Client = _factory.OutgoingRestClient;
             Client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse(Token);
             DatabaseContext = _factory.Server.Host.Services.GetRequiredService<DirectDebitContext>();
             _transaction = _connection.BeginTransaction(IsolationLevel.RepeatableRead);
