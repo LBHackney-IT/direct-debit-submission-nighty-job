@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using DirectDebitSubmissionNightyJob.Domain;
 using DirectDebitSubmissionNightyJob.Tests.E2ETests.Fixtures;
 using DirectDebitSubmissionNightyJob.Tests.E2ETests.Steps;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using TestStack.BDDfy;
 using Xunit;
 

@@ -36,7 +36,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 
         public async Task ProcessMessageAsync(ILogger logger)
         {
-            var collectionDate = 5;//DateTime.UtcNow.Day;
+            var collectionDate = DateTime.UtcNow.Day;
             var submissionRequest = new DirectDebitSubmissionRequest { DateOfCollection = collectionDate };
             var directDebits = await _directDebitGateway.GetAllDirectDebitsByQueryAsync(submissionRequest).ConfigureAwait(false);
 
