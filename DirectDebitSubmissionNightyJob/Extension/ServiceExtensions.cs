@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Authentication;
-using System.Text;
 using DirectDebitSubmissionNightyJob.Gateway;
 using DirectDebitSubmissionNightyJob.Gateway.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Net.Http;
+using System.Security.Authentication;
 
 namespace DirectDebitSubmissionNightyJob.Extension
 {
@@ -14,8 +12,8 @@ namespace DirectDebitSubmissionNightyJob.Extension
     {
         public static void ConfigureTenureApiClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var url = Environment.GetEnvironmentVariable("TenureApiBaseUrl") ?? configuration["TenureApi:BaseUrl"];
-            var token = Environment.GetEnvironmentVariable("TenureApiToken") ?? "token";
+            var url = Environment.GetEnvironmentVariable("TenureApiUrl") ?? throw new ArgumentException($"Configuration does not contain a setting value for the key TenureApiUrl.");
+            var token = Environment.GetEnvironmentVariable("TenureApiToken") ?? throw new ArgumentException($"Configuration does not contain a setting value for the key TenureApiToken.");
 
             services
                 .AddHttpClient<ITenureApiService, TenureApiService>(client =>
@@ -28,8 +26,8 @@ namespace DirectDebitSubmissionNightyJob.Extension
 
         public static void ConfigureTransactionApiClient(this IServiceCollection services, IConfiguration configuration)
         {
-            var url = Environment.GetEnvironmentVariable("TransactionApiBaseUrl") ?? configuration["TransactionApi:BaseUrl"];
-            var token = Environment.GetEnvironmentVariable("TransactionApiToken") ?? "token";
+            var url = Environment.GetEnvironmentVariable("TransactionApiUrl") ?? throw new ArgumentException($"Configuration does not contain a setting value for the key TransactionApiUrl.");
+            var token = Environment.GetEnvironmentVariable("TransactionApiToken") ?? throw new ArgumentException($"Configuration does not contain a setting value for the key TransactionApiToken."); ;
 
             services
                 .AddHttpClient<ITransactionApiService, TransactionApiService>(client =>
