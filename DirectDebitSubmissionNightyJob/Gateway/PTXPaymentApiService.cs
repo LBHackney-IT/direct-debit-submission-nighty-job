@@ -57,7 +57,7 @@ namespace DirectDebitSubmissionNightyJob.Gateway
             }
         }
 
-        public async Task<Tuple<bool, ResultSummaryResponse>> SubmitDirectDebitFile(byte[] bytes, string fileName)
+        public async Task<string> SubmitDirectDebitFile(byte[] bytes, string fileName)
         {
             var authData = _lazyCache.Get<PTXAuthData>(PTXAuthCacheKey);
             if (authData is null)
@@ -96,13 +96,10 @@ namespace DirectDebitSubmissionNightyJob.Gateway
                 var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var contentResult = JsonSerializer.Deserialize<UploadedFileResponse>(body);
                 var id = contentResult.Pollurl.Split('/').Where(x => !string.IsNullOrWhiteSpace(x)).LastOrDefault();
-                //wait for some nano seconds before confirmating the status
-                var confirmData = await GetResultSummaryByFileIdAsync(id, authData).ConfigureAwait(false);
-                var status = confirmData.Status == "SUCCESS";
-                return new Tuple<bool, ResultSummaryResponse>(status, confirmData);
+                return id;
             }
 
-            return new Tuple<bool, ResultSummaryResponse>(false, null); ;
+            return string.Empty;
         }
         private async Task<Tuple<PTXLoginRequest, PTXAuthData>> HandShakeAsync()
         {
@@ -169,8 +166,15 @@ namespace DirectDebitSubmissionNightyJob.Gateway
             throw new Exception("PTX Authentication failed");
         }
 
-        public async Task<ResultSummaryResponse> GetResultSummaryByFileIdAsync(string id, PTXAuthData authData)
+        public async Task<ResultSummaryResponse> GetResultSummaryByFileIdAsync(string id)
         {
+            var authData = _lazyCache.Get<PTXAuthData>(PTXAuthCacheKey);
+            if (authData is null)
+            {
+                var loginRequest = await HandShakeAsync().ConfigureAwait(false);
+
+                authData = await AuthenticateAsync(loginRequest.Item1, loginRequest.Item2).ConfigureAwait(false);
+            }
             _httpClient.DefaultRequestHeaders.Remove("Cookie");
             _httpClient.DefaultRequestHeaders.Remove("X-CSRF");
             _httpClient.DefaultRequestHeaders.Remove("com.bottomline.auth.token");
@@ -179,16 +183,13 @@ namespace DirectDebitSubmissionNightyJob.Gateway
             _httpClient.DefaultRequestHeaders.Add("com.bottomline.auth.token", authData.Authtoken);
 
             var path = new Uri($"{_paymentsBaseUrl}file/{id}", UriKind.Absolute);
-
-            ResultSummaryResponse contentResult;
-            int i = 1;
-            do
+            var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
+            if (contentResult.Status == "PENDING")
             {
-                var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
-                contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
-                i++;
-            } while (contentResult.Status == "PENDING" && i <= 10);
+                return await GetResultSummaryByFileIdAsync(id).ConfigureAwait(false);
+            }
             return contentResult;
         }
     }
