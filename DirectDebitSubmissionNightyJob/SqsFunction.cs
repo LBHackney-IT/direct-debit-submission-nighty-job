@@ -55,7 +55,6 @@ namespace DirectDebitSubmissionNightyJob
 
             services.AddHttpClient();
             var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-
             services.AddDbContext<DirectDebitContext>(opt =>
                 opt.UseNpgsql(connectionString));
 

@@ -97,7 +97,6 @@ namespace DirectDebitSubmissionNightyJob.Gateway
                 var contentResult = JsonSerializer.Deserialize<UploadedFileResponse>(body);
                 var id = contentResult.Pollurl.Split('/').Where(x => !string.IsNullOrWhiteSpace(x)).LastOrDefault();
                 //wait for some nano seconds before confirmating the status
-                await Task.Delay(1000);
                 var confirmData = await GetResultSummaryByFileIdAsync(id, authData).ConfigureAwait(false);
                 var status = confirmData.Status == "SUCCESS";
                 return new Tuple<bool, ResultSummaryResponse>(status, confirmData);
@@ -180,15 +179,17 @@ namespace DirectDebitSubmissionNightyJob.Gateway
             _httpClient.DefaultRequestHeaders.Add("com.bottomline.auth.token", authData.Authtoken);
 
             var path = new Uri($"{_paymentsBaseUrl}file/{id}", UriKind.Absolute);
-            var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
 
-            if (response.IsSuccessStatusCode)
+            ResultSummaryResponse contentResult;
+            int i = 1;
+            do
             {
-                var contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
-                return contentResult;
-            }
-
-            return null;
+                var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
+                contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
+                i++;
+            } while (contentResult.Status == "PENDING" && i <= 10);
+            return contentResult;
         }
     }
 }
