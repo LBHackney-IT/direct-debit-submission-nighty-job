@@ -46,18 +46,21 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                 var generatedFile = GenerateHousingRentFile(data);
                 var filename = $"DDWeekly{DateTime.UtcNow:yyyyddMHHmmss}.dat";
                 byte[] result = Encoding.ASCII.GetBytes(generatedFile); ;
+                var rId = await _iPTXFileUploadService.SubmitDirectDebitFile(result, filename).ConfigureAwait(false);
+                if (string.IsNullOrEmpty(rId))
+                    return;
 
-                var ptxResponse = await _iPTXFileUploadService.SubmitDirectDebitFile(result, filename).ConfigureAwait(false);
-                logger.LogInformation($"File submission Status:{ptxResponse.Item1}");
-                if (ptxResponse.Item1)
+                var fileSubmissionStatus = await _iPTXFileUploadService.GetResultSummaryByFileIdAsync(rId).ConfigureAwait(false);
+                logger.LogInformation($"File submission Status:{fileSubmissionStatus.Status}");
+                if (fileSubmissionStatus.Status == "SUCCESS")
                 {
                     var fileData = new DirectDebitSubmission
                     {
                         DirectDebits = directDebits,
                         FileName = filename,
                         DateOfCollection = submissionRequest.DateOfCollection ?? directDebits.FirstOrDefault().PreferredDate,
-                        Status = ptxResponse.Item2?.Status ?? "Unknow",
-                        PTXSubmissionResponse = ptxResponse?.Item2
+                        Status = fileSubmissionStatus?.Status ?? "Unknow",
+                        PTXSubmissionResponse = fileSubmissionStatus
                     };
 
                     await _directDebitSubmissionGateway.UploadFileAsync(fileData).ConfigureAwait(false);
@@ -80,11 +83,5 @@ namespace DirectDebitSubmissionNightyJob.UseCase
             return sb.ToString();
         }
 
-        public int GetWeekNumber()
-        {
-            CultureInfo ciCurr = CultureInfo.CurrentCulture;
-            int weekNum = ciCurr.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-            return weekNum;
-        }
     }
 }

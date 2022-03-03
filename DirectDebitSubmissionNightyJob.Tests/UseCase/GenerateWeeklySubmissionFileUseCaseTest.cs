@@ -23,7 +23,7 @@ namespace DirectDebitSubmissionNightyJob.Tests.UseCase
         private readonly Mock<IDirectDebitSubmissionGateway> _mockGateway;
         private readonly Mock<IPTXPaymentApiService> _iPTXFileUploadService;
         private readonly Mock<IDirectDebitGateway> _exportGateway;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly GenerateWeeklySubmissionFileUseCase _classUnderTest;
         private readonly Fixture _fixture;
         private readonly Mock<ICreateTransactionRecordUseCase> _createTransactionRecordsUseCase;
@@ -69,8 +69,9 @@ namespace DirectDebitSubmissionNightyJob.Tests.UseCase
             _exportGateway.Setup(_ => _.GetAllDirectDebitsByQueryAsync(It.IsAny<DirectDebitSubmissionRequest>())).ReturnsAsync(new List<DirectDebit>() { directDebit });
             var mapperMock = new Mock<IMapper>();
             mapperMock.Setup(m => m.Map<DirectDebit, PTXSubmissionFileData>(It.IsAny<DirectDebit>())).Returns(ptxData);
-            var expectedReturnType = new Tuple<bool, ResultSummaryResponse>(true, new ResultSummaryResponse());
-            _iPTXFileUploadService.Setup(_ => _.SubmitDirectDebitFile(It.IsAny<byte[]>(), It.IsAny<string>())).ReturnsAsync(expectedReturnType);
+            var expectedReturnType = "123546";
+            ; _iPTXFileUploadService.Setup(_ => _.SubmitDirectDebitFile(It.IsAny<byte[]>(), It.IsAny<string>())).ReturnsAsync(expectedReturnType);
+            _iPTXFileUploadService.Setup(_ => _.GetResultSummaryByFileIdAsync(It.IsAny<string>())).ReturnsAsync(new ResultSummaryResponse { Status = "SUCCESS" });
 
             await _classUnderTest.ProcessMessageAsync(_logger.Object).ConfigureAwait(false);
 

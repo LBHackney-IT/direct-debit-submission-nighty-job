@@ -8,7 +8,7 @@ namespace DirectDebitSubmissionNightyJob.Helpers
     public class UrlFormatter
     {
         private string _baseAddress;
-        private Dictionary<string, string> _params = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _params = new Dictionary<string, string>();
 
         /// <summary>
         /// Sets a root url to append query string parameters

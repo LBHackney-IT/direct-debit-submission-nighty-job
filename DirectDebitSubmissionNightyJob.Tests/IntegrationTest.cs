@@ -18,13 +18,12 @@ namespace DirectDebitSubmissionNightyJob.Tests
 {
     public class IntegrationTest
     {
-        private const string Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTIyNDE2MjU4ODQ1MjgxMDQxNDAiLCJlbWFpbCI6ImRlbmlzZS5udWRnZUBoYWNrbmV5Lmdvdi51ayIsImlzcyI6IkhhY2tuZXkiLCJuYW1lIjoiRGVuaXNlIE51ZGdlIiwiZ3JvdXBzIjpbInNvbWUtdmFsaWQtZ29vZ2xlLWdyb3VwIl0sImlhdCI6MTYzOTQxNzE4OX0.Rai_olTwhVugBY8L8bpyhSGxX3lLB-ZLqxlSDQh96nE";
         public HttpClient Client { get; private set; }
         public DirectDebitContext DatabaseContext { get; private set; }
         private readonly MockWebApplicationFactory _factory;
-        private NpgsqlConnection _connection;
-        private IDbContextTransaction _transaction;
-        private DbContextOptionsBuilder _builder;
+        private readonly NpgsqlConnection _connection;
+        private readonly IDbContextTransaction _transaction;
+        private readonly DbContextOptionsBuilder _builder;
 
         private readonly IHost _host;
 
