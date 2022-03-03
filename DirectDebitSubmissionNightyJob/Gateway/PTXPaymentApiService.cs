@@ -117,12 +117,12 @@ namespace DirectDebitSubmissionNightyJob.Gateway
             _httpClient.DefaultRequestHeaders.Add("Cookie", authData.JsessionId);
             _httpClient.DefaultRequestHeaders.Add("X-CSRF", authData.XCsrf);
             _httpClient.DefaultRequestHeaders.Add("com.bottomline.auth.token", authData.Authtoken);
-
+            var expectedStatus = new List<string> { "SUCCESS", "FAILURE" };
             var path = new Uri($"{_paymentsBaseUrl}file/{id}", UriKind.Absolute);
             var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
-            if (contentResult.Status == "PENDING")
+            if (!expectedStatus.Any(x => x == contentResult.Status))
             {
                 return await GetResultSummaryByFileIdAsync(id).ConfigureAwait(false);
             }
