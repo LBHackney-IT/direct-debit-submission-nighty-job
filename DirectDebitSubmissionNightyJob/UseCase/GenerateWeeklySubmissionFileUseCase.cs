@@ -39,7 +39,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
             var collectionDate = DateTime.UtcNow.Day;
             var submissionRequest = new DirectDebitSubmissionRequest { DateOfCollection = collectionDate };
             var directDebits = await _directDebitGateway.GetAllDirectDebitsByQueryAsync(submissionRequest).ConfigureAwait(false);
-
+            logger.LogInformation($"{directDebits.Count} records to be process");
             if (directDebits.Any())
             {
                 var data = _mapper.Map<List<PTXSubmissionFileData>>(directDebits);
@@ -48,6 +48,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                 byte[] result = Encoding.ASCII.GetBytes(generatedFile); ;
 
                 var ptxResponse = await _iPTXFileUploadService.SubmitDirectDebitFile(result, filename).ConfigureAwait(false);
+                logger.LogInformation($"File submission Status:{ptxResponse.Item1}");
                 if (ptxResponse.Item1)
                 {
                     var fileData = new DirectDebitSubmission
@@ -60,9 +61,10 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                     };
 
                     await _directDebitSubmissionGateway.UploadFileAsync(fileData).ConfigureAwait(false);
-
+                    logger.LogInformation($"Submitted records logged to DB");
                     // Create transaction record on Transaction API
                     await _createTransactionRecordUseCase.CreateTransactionRecordAsync(directDebits);
+                    logger.LogInformation($"Payment credited");
                 }
             }
         }

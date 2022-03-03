@@ -37,7 +37,7 @@ functions:
       TransactionApiToken: ${ssm:/housing-finance/${self:provider.stage}/financial-transactions-api-token}
     events:
       ### Run everyday at 1 am
-     - schedule: cron(0 18 * * ? *) 
+     - schedule: cron(0 09 * * ? *) 
       
 resources:
   Resources:
