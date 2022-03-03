@@ -55,7 +55,6 @@ namespace DirectDebitSubmissionNightyJob.Gateway
             {
                 throw new ArgumentException($"Configuration does not contain a ptx setting value for the parameter {ProfileId}.");
             }
-            _profileId = "44292";
         }
 
         public async Task<Tuple<bool, ResultSummaryResponse>> SubmitDirectDebitFile(byte[] bytes, string fileName)
@@ -98,7 +97,7 @@ namespace DirectDebitSubmissionNightyJob.Gateway
                 var contentResult = JsonSerializer.Deserialize<UploadedFileResponse>(body);
                 var id = contentResult.Pollurl.Split('/').Where(x => !string.IsNullOrWhiteSpace(x)).LastOrDefault();
                 //wait for some nano seconds before confirmating the status
-                await Task.Delay(800);
+                await Task.Delay(1000);
                 var confirmData = await GetResultSummaryByFileIdAsync(id, authData).ConfigureAwait(false);
                 var status = confirmData.Status == "SUCCESS";
                 return new Tuple<bool, ResultSummaryResponse>(status, confirmData);
