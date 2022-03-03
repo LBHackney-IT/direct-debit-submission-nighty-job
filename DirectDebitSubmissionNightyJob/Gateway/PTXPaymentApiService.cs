@@ -101,6 +101,33 @@ namespace DirectDebitSubmissionNightyJob.Gateway
 
             return string.Empty;
         }
+
+        public async Task<ResultSummaryResponse> GetResultSummaryByFileIdAsync(string id)
+        {
+            var authData = _lazyCache.Get<PTXAuthData>(PTXAuthCacheKey);
+            if (authData is null)
+            {
+                var loginRequest = await HandShakeAsync().ConfigureAwait(false);
+
+                authData = await AuthenticateAsync(loginRequest.Item1, loginRequest.Item2).ConfigureAwait(false);
+            }
+            _httpClient.DefaultRequestHeaders.Remove("Cookie");
+            _httpClient.DefaultRequestHeaders.Remove("X-CSRF");
+            _httpClient.DefaultRequestHeaders.Remove("com.bottomline.auth.token");
+            _httpClient.DefaultRequestHeaders.Add("Cookie", authData.JsessionId);
+            _httpClient.DefaultRequestHeaders.Add("X-CSRF", authData.XCsrf);
+            _httpClient.DefaultRequestHeaders.Add("com.bottomline.auth.token", authData.Authtoken);
+
+            var path = new Uri($"{_paymentsBaseUrl}file/{id}", UriKind.Absolute);
+            var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
+            if (contentResult.Status == "PENDING")
+            {
+                return await GetResultSummaryByFileIdAsync(id).ConfigureAwait(false);
+            }
+            return contentResult;
+        }
         private async Task<Tuple<PTXLoginRequest, PTXAuthData>> HandShakeAsync()
         {
 
@@ -166,31 +193,5 @@ namespace DirectDebitSubmissionNightyJob.Gateway
             throw new Exception("PTX Authentication failed");
         }
 
-        public async Task<ResultSummaryResponse> GetResultSummaryByFileIdAsync(string id)
-        {
-            var authData = _lazyCache.Get<PTXAuthData>(PTXAuthCacheKey);
-            if (authData is null)
-            {
-                var loginRequest = await HandShakeAsync().ConfigureAwait(false);
-
-                authData = await AuthenticateAsync(loginRequest.Item1, loginRequest.Item2).ConfigureAwait(false);
-            }
-            _httpClient.DefaultRequestHeaders.Remove("Cookie");
-            _httpClient.DefaultRequestHeaders.Remove("X-CSRF");
-            _httpClient.DefaultRequestHeaders.Remove("com.bottomline.auth.token");
-            _httpClient.DefaultRequestHeaders.Add("Cookie", authData.JsessionId);
-            _httpClient.DefaultRequestHeaders.Add("X-CSRF", authData.XCsrf);
-            _httpClient.DefaultRequestHeaders.Add("com.bottomline.auth.token", authData.Authtoken);
-
-            var path = new Uri($"{_paymentsBaseUrl}file/{id}", UriKind.Absolute);
-            var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
-            var contentResult = await response.Content.ReadFromJsonAsync<ResultSummaryResponse>().ConfigureAwait(false);
-            if (contentResult.Status == "PENDING")
-            {
-                return await GetResultSummaryByFileIdAsync(id).ConfigureAwait(false);
-            }
-            return contentResult;
-        }
     }
 }
