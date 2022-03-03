@@ -51,7 +51,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                     return;
 
                 var fileSubmissionStatus = await _iPTXFileUploadService.GetResultSummaryByFileIdAsync(rId).ConfigureAwait(false);
-                logger.LogInformation($"File submission Status:{fileSubmissionStatus.Status}");
+                logger.LogInformation($"======File submission Status:=={fileSubmissionStatus.Status}");
                 if (fileSubmissionStatus.Status == "SUCCESS")
                 {
                     var fileData = new DirectDebitSubmission
