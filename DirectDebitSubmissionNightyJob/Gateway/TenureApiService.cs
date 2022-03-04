@@ -19,7 +19,7 @@ namespace DirectDebitSubmissionNightyJob.Gateway
 
         public async Task<TenureResponse> GetTenureInformation(Guid targetId)
         {
-            return await _restClient.GetAsync<TenureResponse>($"tenures/{targetId}", "Failed to retrieve tenure information");
+            return await _restClient.GetAsync<TenureResponse>($"/tenures/{targetId}", "Failed to retrieve tenure information");
         }
     }
 }

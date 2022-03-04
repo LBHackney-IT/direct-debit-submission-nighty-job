@@ -12,18 +12,18 @@ namespace DirectDebitSubmissionNightyJob.Boundary.Response
         public TenuredAsset TenuredAsset { get; set; }
         public Charges Charges { get; set; }
         public DateTime StartOfTenureDate { get; set; }
-        public DateTime EndOfTenureDate { get; set; }
+        public DateTime? EndOfTenureDate { get; set; }
         public TenureType TenureType { get; set; }
         public bool IsActive { get; set; }
-        public bool IsTenanted { get; set; }
+        public bool? IsTenanted { get; set; }
         public Terminated Terminated { get; set; }
-        public DateTime SuccessionDate { get; set; }
-        public DateTime EvictionDate { get; set; }
-        public DateTime PotentialEndDate { get; set; }
+        public DateTime? SuccessionDate { get; set; }
+        public DateTime? EvictionDate { get; set; }
+        public DateTime? PotentialEndDate { get; set; }
         public bool IsMutualExchange { get; set; }
         public bool InformHousingBenefitsForChanges { get; set; }
         public bool IsSublet { get; set; }
-        public DateTime SubletEndDate { get; set; }
+        public DateTime? SubletEndDate { get; set; }
         public List<Notice> Notices { get; set; }
         public List<LegacyReference> LegacyReferences { get; set; }
         public AgreementType AgreementType { get; set; }
@@ -35,7 +35,7 @@ namespace DirectDebitSubmissionNightyJob.Boundary.Response
         public string Type { get; set; }
         public string FullName { get; set; }
         public bool IsResponsible { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string PersonTenureType { get; set; }
     }
 
@@ -51,15 +51,15 @@ namespace DirectDebitSubmissionNightyJob.Boundary.Response
     public class Charges
     {
         public int Rent { get; set; }
-        public int CurrentBalance { get; set; }
+        public decimal CurrentBalance { get; set; }
         public string BillingFrequency { get; set; }
-        public int ServiceCharge { get; set; }
-        public int OtherCharges { get; set; }
-        public int CombinedServiceCharges { get; set; }
-        public int CombinedRentCharges { get; set; }
-        public int TenancyInsuranceCharge { get; set; }
-        public int OriginalRentCharge { get; set; }
-        public int OriginalServiceCharge { get; set; }
+        public decimal ServiceCharge { get; set; }
+        public decimal OtherCharges { get; set; }
+        public decimal CombinedServiceCharges { get; set; }
+        public decimal CombinedRentCharges { get; set; }
+        public decimal TenancyInsuranceCharge { get; set; }
+        public decimal OriginalRentCharge { get; set; }
+        public decimal OriginalServiceCharge { get; set; }
     }
 
     public class TenureType
@@ -77,10 +77,10 @@ namespace DirectDebitSubmissionNightyJob.Boundary.Response
     public class Notice
     {
         public string Type { get; set; }
-        public DateTime ServedDate { get; set; }
-        public DateTime ExpiryDate { get; set; }
-        public DateTime EffectiveDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? ServedDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
+        public DateTime? EffectiveDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 
     public class LegacyReference

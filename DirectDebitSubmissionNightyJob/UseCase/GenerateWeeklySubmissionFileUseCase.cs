@@ -45,7 +45,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                 var data = _mapper.Map<List<PTXSubmissionFileData>>(directDebits);
                 var generatedFile = GenerateHousingRentFile(data);
                 var filename = $"DDWeekly{DateTime.UtcNow:yyyyddMHHmmss}.dat";
-                byte[] result = Encoding.ASCII.GetBytes(generatedFile); ;
+                byte[] result = Encoding.ASCII.GetBytes(generatedFile);
                 var rId = await _iPTXFileUploadService.SubmitDirectDebitFile(result, filename).ConfigureAwait(false);
                 if (string.IsNullOrEmpty(rId))
                     return;

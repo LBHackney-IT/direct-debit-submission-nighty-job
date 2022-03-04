@@ -67,7 +67,7 @@ namespace DirectDebitSubmissionNightyJob.Services.Concrete
 
             var httpResponse = await _httpClient.SendAsync(httpRequestMessage).ConfigureAwait(false);
 
-            if (!httpResponse.IsSuccessStatusCode)
+            if (!httpResponse.IsSuccessStatusCode && httpResponse.StatusCode != System.Net.HttpStatusCode.NotFound)
             {
                 await httpResponse.ThrowResponseExceptionAsync(errorMessage).ConfigureAwait(false);
             }
