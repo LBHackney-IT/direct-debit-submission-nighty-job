@@ -54,8 +54,7 @@ namespace DirectDebitSubmissionNightyJob
             services.ConfigureDynamoDB();
 
             services.AddHttpClient();
-            //var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-            var connectionString = "User ID =financeadmin;Password=Msk8KLKueh4SDXjy;Server=127.0.0.1;Port=55111;Database=financedbdevelopment;Integrated Security=true;Pooling=true;";
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
             services.AddDbContext<DirectDebitContext>(opt =>
                 opt.UseNpgsql(connectionString));
 
