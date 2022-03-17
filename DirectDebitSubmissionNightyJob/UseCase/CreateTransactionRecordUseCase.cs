@@ -12,12 +12,12 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 {
     public class CreateTransactionRecordUseCase : ICreateTransactionRecordUseCase
     {
-        private readonly ITenureApiService _tenureApiService;
+        //private readonly ITenureApiService _tenureApiService;
         private readonly ITransactionApiService _transactionApiService;
 
-        public CreateTransactionRecordUseCase(ITenureApiService tenureApiService, ITransactionApiService transactionApiService)
+        public CreateTransactionRecordUseCase(ITransactionApiService transactionApiService)
         {
-            _tenureApiService = tenureApiService;
+            //_tenureApiService = tenureApiService;
             _transactionApiService = transactionApiService;
         }
 

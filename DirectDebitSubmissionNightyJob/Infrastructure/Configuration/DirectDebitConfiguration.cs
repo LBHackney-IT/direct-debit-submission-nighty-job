@@ -42,7 +42,8 @@ namespace DirectDebitSubmissionNightyJob.Infrastructure.Configuration
            .HasColumnType("jsonb")
             .IsRequired();
 
-
+            builder.Property(x => x.SenderInformation)
+        .HasColumnType("jsonb");
 
             builder.HasMany(d => d.DirectDebitMaintenance)
                .WithOne(x => x.DirectDebit)

@@ -59,7 +59,7 @@ namespace DirectDebitSubmissionNightyJob
                 opt.UseNpgsql(connectionString));
 
             services.AddTransient<IRestClient, JsonRestClient>();
-            services.ConfigureTenureApiClient(Configuration);
+            //services.ConfigureTenureApiClient(Configuration);
             services.ConfigureTransactionApiClient(Configuration);
 
             base.ConfigureServices(services);
