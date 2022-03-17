@@ -43,7 +43,7 @@ namespace DirectDebitSubmissionNightyJob
         /// <param name="services"></param>
         protected override void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IGenerateWeeklySubmissionFileUseCase, GenerateWeeklySubmissionFileUseCase>();
+            services.AddScoped<IGenerateWeeklySubmissionFileUseCase, GenerateSubmissionFileUseCase>();
             services.AddScoped<IDirectDebitSubmissionGateway, DirectDebitSubmissionGateway>();
             services.AddScoped<IDirectDebitGateway, DirectDebitGateway>();
             services.AddScoped<IPTXPaymentApiService, PTXPaymentApiService>();
@@ -59,7 +59,7 @@ namespace DirectDebitSubmissionNightyJob
                 opt.UseNpgsql(connectionString));
 
             services.AddTransient<IRestClient, JsonRestClient>();
-            services.ConfigureTenureApiClient(Configuration);
+            //services.ConfigureTenureApiClient(Configuration);
             services.ConfigureTransactionApiClient(Configuration);
 
             base.ConfigureServices(services);

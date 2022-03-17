@@ -6,19 +6,18 @@ using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DirectDebitSubmissionNightyJob.UseCase
 {
     public class CreateTransactionRecordUseCase : ICreateTransactionRecordUseCase
     {
-        private readonly ITenureApiService _tenureApiService;
+        //private readonly ITenureApiService _tenureApiService;
         private readonly ITransactionApiService _transactionApiService;
 
-        public CreateTransactionRecordUseCase(ITenureApiService tenureApiService, ITransactionApiService transactionApiService)
+        public CreateTransactionRecordUseCase(ITransactionApiService transactionApiService)
         {
-            _tenureApiService = tenureApiService;
+            //_tenureApiService = tenureApiService;
             _transactionApiService = transactionApiService;
         }
 
@@ -28,7 +27,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 
             foreach (var directDebit in directDebits)
             {
-                var tenureInfo = await _tenureApiService.GetTenureInformation(directDebit.TargetId).ConfigureAwait(false);
+                //var tenureInfo = await _tenureApiService.GetTenureInformation(directDebit.TargetId).ConfigureAwait(false);
 
                 var transactionCreationRequest = new TransactionCreationRequest()
                 {
@@ -46,11 +45,11 @@ namespace DirectDebitSubmissionNightyJob.UseCase
                     ChargedAmount = 0,
                     BalanceAmount = 0,
                     HousingBenefitAmount = 0,
-                    Address = tenureInfo.TenuredAsset.FullAddress,
+                    Address = directDebit?.SenderInformation?.Address,
                     Sender = new Sender()
                     {
-                        Id = tenureInfo.HouseholdMembers.FirstOrDefault()?.Id,
-                        FullName = tenureInfo.HouseholdMembers.FirstOrDefault()?.FullName
+                        Id = directDebit?.SenderInformation?.Id,
+                        FullName = directDebit?.SenderInformation?.FullName
                     },
                     Fund = directDebit.Fund,
                     FinancialMonth = DateTime.UtcNow.Month,

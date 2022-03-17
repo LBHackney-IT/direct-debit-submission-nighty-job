@@ -7,7 +7,6 @@ namespace DirectDebitSubmissionNightyJob.Domain.Enums
     {
 
         Tenant = 1,
-        Lease,
-        Major
+        Leaseholder
     }
 }

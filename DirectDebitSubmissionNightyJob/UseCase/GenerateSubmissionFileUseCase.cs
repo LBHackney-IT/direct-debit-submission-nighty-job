@@ -6,14 +6,13 @@ using DirectDebitSubmissionNightyJob.UseCase.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DirectDebitSubmissionNightyJob.UseCase
 {
-    public class GenerateWeeklySubmissionFileUseCase : IGenerateWeeklySubmissionFileUseCase
+    public class GenerateSubmissionFileUseCase : IGenerateWeeklySubmissionFileUseCase
     {
         private readonly IDirectDebitSubmissionGateway _directDebitSubmissionGateway;
         private readonly IPTXPaymentApiService _iPTXFileUploadService;
@@ -21,7 +20,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
         private readonly IMapper _mapper;
         private readonly ICreateTransactionRecordUseCase _createTransactionRecordUseCase;
 
-        public GenerateWeeklySubmissionFileUseCase(IDirectDebitSubmissionGateway directDebitSubmissionGateway,
+        public GenerateSubmissionFileUseCase(IDirectDebitSubmissionGateway directDebitSubmissionGateway,
             IPTXPaymentApiService iPTXFileUploadService,
             IDirectDebitGateway directDebitGateway,
             IMapper mapper,
@@ -44,7 +43,7 @@ namespace DirectDebitSubmissionNightyJob.UseCase
             {
                 var data = _mapper.Map<List<PTXSubmissionFileData>>(directDebits);
                 var generatedFile = GenerateHousingRentFile(data);
-                var filename = $"DDWeekly{DateTime.UtcNow:yyyyddMHHmmss}.dat";
+                var filename = $"Monthly{DateTime.UtcNow:yyyyddMHHmmss}.dat";
                 byte[] result = Encoding.ASCII.GetBytes(generatedFile);
                 var rId = await _iPTXFileUploadService.SubmitDirectDebitFile(result, filename).ConfigureAwait(false);
                 if (string.IsNullOrEmpty(rId))

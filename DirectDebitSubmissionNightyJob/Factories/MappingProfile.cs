@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using AutoMapper;
 using DirectDebitSubmissionNightyJob.Boundary.Request;
 using DirectDebitSubmissionNightyJob.Domain;
 using DirectDebitSubmissionNightyJob.Infrastructure;
+using System.Linq;
 
 namespace DirectDebitSubmissionNightyJob.Factories
 {
@@ -36,7 +33,7 @@ namespace DirectDebitSubmissionNightyJob.Factories
                 .ForMember(dest => dest.Number,
                     opt => opt.MapFrom(src => src.BankAccountNumber))
                 .ForMember(dest => dest.Amount,
-                    opt => opt.ConvertUsing(new CurrencyFormatter(), src => (src.AdditionalAmount * 100)))
+                    opt => opt.ConvertUsing(new CurrencyFormatter(), src => ((src.Amount + src.AdditionalAmount) * 100)))
 
                 .ReverseMap();
 
