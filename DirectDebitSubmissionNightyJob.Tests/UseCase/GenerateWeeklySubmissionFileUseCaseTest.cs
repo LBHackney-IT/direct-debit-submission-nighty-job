@@ -24,10 +24,10 @@ namespace DirectDebitSubmissionNightyJob.Tests.UseCase
         private readonly Mock<IPTXPaymentApiService> _iPTXFileUploadService;
         private readonly Mock<IDirectDebitGateway> _exportGateway;
         private readonly IMapper _mapper;
-        private readonly GenerateWeeklySubmissionFileUseCase _classUnderTest;
+        private readonly GenerateSubmissionFileUseCase _classUnderTest;
         private readonly Fixture _fixture;
         private readonly Mock<ICreateTransactionRecordUseCase> _createTransactionRecordsUseCase;
-        private readonly Mock<ILogger<GenerateWeeklySubmissionFileUseCase>> _logger;
+        private readonly Mock<ILogger<GenerateSubmissionFileUseCase>> _logger;
 
         public GenerateWeeklySubmissionFileUseCaseTest()
         {
@@ -41,9 +41,9 @@ namespace DirectDebitSubmissionNightyJob.Tests.UseCase
             _mapper = new Mapper(config);
             _exportGateway = new Mock<IDirectDebitGateway>();
             _createTransactionRecordsUseCase = new Mock<ICreateTransactionRecordUseCase>();
-            _classUnderTest = new GenerateWeeklySubmissionFileUseCase(_mockGateway.Object, _iPTXFileUploadService.Object, _exportGateway.Object, _mapper, _createTransactionRecordsUseCase.Object);
+            _classUnderTest = new GenerateSubmissionFileUseCase(_mockGateway.Object, _iPTXFileUploadService.Object, _exportGateway.Object, _mapper, _createTransactionRecordsUseCase.Object);
             _fixture = new Fixture();
-            _logger = new Mock<ILogger<GenerateWeeklySubmissionFileUseCase>>();
+            _logger = new Mock<ILogger<GenerateSubmissionFileUseCase>>();
         }
 
         [Fact]

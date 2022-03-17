@@ -23,11 +23,13 @@ namespace DirectDebitSubmissionNightyJob.Infrastructure
         public string BranchSortCode { get; set; }
         public string ServiceUserNumber { get; set; }
         public string Reference { get; set; }
+        public decimal Amount { get; set; }
         public decimal AdditionalAmount { get; set; }
         public int PreferredDate { get; set; }
         public string Status { get; set; }
         public List<AccountHolder> AccountHolders { get; set; }
         public BankOrBuildingSociety BankOrBuildingSociety { get; set; }
+        public SenderInformation SenderInformation { get; set; }
         public DateTime? CancellationDate { get; set; }
         public bool IsPaused { get; set; }
         public bool IsCancelled { get; set; }

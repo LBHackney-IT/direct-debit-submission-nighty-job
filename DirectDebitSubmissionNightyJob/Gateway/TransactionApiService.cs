@@ -20,7 +20,7 @@ namespace DirectDebitSubmissionNightyJob.Gateway
         public async Task CreateTransactionRecord(List<TransactionCreationRequest> transactionCreationRequests)
         {
             await _restClient
-                .PostAsync<object>($"/transactions/process-batch", transactionCreationRequests, "Failed to create transaction records")
+                .PostAsync<object>("/transactions/process-batch", transactionCreationRequests, "Failed to create transaction records")
                 .ConfigureAwait(false);
         }
     }

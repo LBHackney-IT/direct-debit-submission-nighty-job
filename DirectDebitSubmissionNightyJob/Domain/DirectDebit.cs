@@ -24,6 +24,8 @@ namespace DirectDebitSubmissionNightyJob.Domain
         public string ServiceUserNumber { get; set; }
         public string Reference { get; set; }
         public BankOrBuildingSociety BankOrBuildingSociety { get; set; }
+        public SenderInformation SenderInformation { get; set; }
+        public decimal Amount { get; set; }
         public decimal AdditionalAmount { get; set; }
         public int PreferredDate { get; set; }
         public string Status { get; set; }
