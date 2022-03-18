@@ -10,19 +10,6 @@ namespace DirectDebitSubmissionNightyJob.Extension
 {
     public static class ServiceExtensions
     {
-        public static void ConfigureTenureApiClient(this IServiceCollection services, IConfiguration configuration)
-        {
-            var url = Environment.GetEnvironmentVariable("TenureApiUrl") ?? throw new ArgumentException($"Configuration does not contain a setting value for the key TenureApiUrl.");
-            var token = Environment.GetEnvironmentVariable("TenureApiToken") ?? throw new ArgumentException($"Configuration does not contain a setting value for the key TenureApiToken.");
-
-            services
-                .AddHttpClient<ITenureApiService, TenureApiService>(client =>
-                {
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-                })
-                .ConfigureMessageHandlers();
-        }
 
         public static void ConfigureTransactionApiClient(this IServiceCollection services, IConfiguration configuration)
         {
