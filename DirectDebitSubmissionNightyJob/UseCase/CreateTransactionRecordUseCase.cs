@@ -12,12 +12,10 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 {
     public class CreateTransactionRecordUseCase : ICreateTransactionRecordUseCase
     {
-        //private readonly ITenureApiService _tenureApiService;
         private readonly ITransactionApiService _transactionApiService;
 
         public CreateTransactionRecordUseCase(ITransactionApiService transactionApiService)
         {
-            //_tenureApiService = tenureApiService;
             _transactionApiService = transactionApiService;
         }
 
@@ -27,8 +25,6 @@ namespace DirectDebitSubmissionNightyJob.UseCase
 
             foreach (var directDebit in directDebits)
             {
-                //var tenureInfo = await _tenureApiService.GetTenureInformation(directDebit.TargetId).ConfigureAwait(false);
-
                 var transactionCreationRequest = new TransactionCreationRequest()
                 {
                     TransactionType = TransactionType.DirectDebit,
